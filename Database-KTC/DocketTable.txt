@@ -1,0 +1,41 @@
+-- create database ktc;
+-- use ktc;
+
+CREATE TABLE DOCKET (
+    DocketNo INT PRIMARY KEY AUTO_INCREMENT,
+    DocketDate DATE DEFAULT (CURDATE()),
+    Branch VARCHAR(100) DEFAULT 'Haridwar',
+    Source VARCHAR(100) DEFAULT 'Haridwar',
+    Destination VARCHAR(100) NOT NULL,
+    
+    TruckNo VARCHAR(50) NOT NULL,
+    LorrySize ENUM('Pick Up', '14Ft.', '17Ft.', '19Ft.', '22Ft.', '24Ft.', 'SXL', 'MXL') NOT NULL,
+    Qty INT NOT NULL,
+    TruckFreight DECIMAL(10, 2) NOT NULL,
+
+    ConsignorName VARCHAR(255) NOT NULL,
+    ConsigneeName VARCHAR(255) NOT NULL,
+    ContactDetails VARCHAR(255) NOT NULL,
+    Item VARCHAR(255) NOT NULL,
+    PackingType VARCHAR(255) NOT NULL,
+
+    InvoiceNo VARCHAR(50),
+    MaterialValue VARCHAR(255) NOT NULL,
+    EwayBillNo INT NOT NULL,
+
+    GreenTax DECIMAL(10, 2),
+    LabourCharges DECIMAL(10, 2),
+    HoldingCharges DECIMAL(10, 2),
+    MultiPointPickupCharges DECIMAL(10, 2),
+    MultiPointDeliveryCharges DECIMAL(10, 2),
+    DocketCharge DECIMAL(10, 2),
+    OtherCharges DECIMAL(10, 2),
+
+    BillingProvisionalAmount DECIMAL(10, 2),
+    TotalAmount DECIMAL(10, 2),
+    Remark TEXT,
+    BillingStatus VARCHAR(50),
+    BillNo INT,
+    DeliveryDate DATEdocket
+   --  FOREIGN KEY (BillNo) REFERENCES BILLS(BillNo)
+);
