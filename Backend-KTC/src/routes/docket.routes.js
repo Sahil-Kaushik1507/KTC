@@ -1,9 +1,12 @@
 import {Router} from 'express';
-import {addNewDocket} from '../controllers/docket.controllers.js'
+import {addNewDocket,sendNextDocketNo} from '../controllers/docket.controllers.js'
 const router = Router();
 
 
 router.route("/new").post(addNewDocket)
+router.route("/new/company").get(sendNextDocketNo)
+
+
 
 
 router.route('/*').get((req,res)=>{

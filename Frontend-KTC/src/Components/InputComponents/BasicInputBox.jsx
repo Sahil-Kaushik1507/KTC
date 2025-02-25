@@ -2,16 +2,18 @@ import React from 'react'
 import { FastField, ErrorMessage } from "formik";
 
 // Simple Text Box, email box, password box, number box, date box
-// 2 required props 1> lable 2>typecheck (can be : text,email, password, number, date)
+// 2 required props 1> label 2>type (can be : text,email, password, number, date)
 
-const BasicInputBox = React.memo(({ label, typecheck, ...rest }) => {
+const BasicInputBox = React.memo((props) => {
+    console.log(props);
+    const { label, type, ...rest }=props;
     const labelText = label.charAt(0).toUpperCase() + label.slice(1);
 
     return (
         <div className="relative w-full">
             {/* Input Field */}
             <FastField
-                type={typecheck}
+                type={type}
                 name={label}
                 id={label}
                 {...rest}

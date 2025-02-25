@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import SideBar from "./SideBar/SideBar";
 import SubSideBar from "./SubSideBar/SubSideBar";
 import MainSpace from "./MainSpace/MainSpace";
+import Footer from "../Footer/Footer";
 
 const Dashboard = React.memo(() => {
   return (
@@ -28,6 +29,10 @@ const Dashboard = React.memo(() => {
         <main className="flex-1 overflow-auto bg-gray-50 p-6 shadow-inner">
             <MainSpace/>
         </main>
+
+        <footer className="flex-1 overflow-auto bg-gray-50 p-6 shadow-inner">
+          <Footer/>
+        </footer>
       </div>
     </div>
   );

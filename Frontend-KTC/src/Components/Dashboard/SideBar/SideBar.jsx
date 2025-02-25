@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo ,useEffect} from "react";
+import React, { useCallback, useMemo } from "react";
 import { useSideBarOptionsContextData } from "../../../Context/SideBarOptionsContext.jsx";
 
 const SideBar = React.memo(() => {
@@ -14,13 +14,13 @@ const SideBar = React.memo(() => {
   );
 
   return (
-    <div className="side-bar flex h-full border-2">
-      <div className="main-side-bar bg-mycolors-Medium_Teal_Blue text-mycolors-other border-mycolors-secondary-2 h-full w-16 border-r-1 pt-4">
-        <ul className="text-center text-sm">
+    <div className="side-bar flex h-full border-r-4 border-[#FBBF24] shadow-lg">
+      <div className="main-side-bar bg-[#1E3A8A] text-[#F8FAFC] h-full w-28 pt-4">
+        <ul className="text-center text-sm font-semibold">
           {sidebarOptionsList.map((option) => (
             <li
               key={option}
-              className="my-1 cursor-pointer rounded-lg border border-blue-500 p-1"
+              className="my-2 mx-3 cursor-pointer rounded-lg border border-[#38BDF8] p-2 transition duration-300 hover:bg-[#38BDF8] hover:text-[#1E3A8A]"
               onClick={() => handleClick(option)}
             >
               {option}

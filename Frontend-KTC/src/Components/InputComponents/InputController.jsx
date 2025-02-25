@@ -5,15 +5,16 @@ import DropDownInputBox from "./DropDownInputBox";
 import RadioInputBox from "./RadioInputBox";
 import TextAreaInput from "./TextAreaInput";
 
-const InputControl = React.memo(({ typecheck, ...rest }) => {
+const InputControl = React.memo(({ type, ...rest }) => {
+    console.log({...rest})
     const InputComponent = useMemo(() => {
-        switch (typecheck) {
+        switch (type) {
             case "Text":
             case "Email":
             case "Password":
             case "Number":
             case "Date":
-                return <BasicInputBox {...rest} typecheck={typecheck} />;
+                return <BasicInputBox {...rest} type={type} />;
             case "Radio":
                 return <RadioInputBox {...rest} />;
             case "DropDown":
@@ -25,7 +26,7 @@ const InputControl = React.memo(({ typecheck, ...rest }) => {
             default:
                 return null;
         }
-    }, [typecheck, rest]);
+    }, [type, rest]);
 
     return InputComponent;
 });
