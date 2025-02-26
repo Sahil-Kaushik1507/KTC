@@ -6,22 +6,22 @@ import RadioInputBox from "./RadioInputBox";
 import TextAreaInput from "./TextAreaInput";
 
 const InputControl = React.memo(({ type, ...rest }) => {
-    console.log({...rest})
+
     const InputComponent = useMemo(() => {
         switch (type) {
-            case "Text":
-            case "Email":
-            case "Password":
-            case "Number":
-            case "Date":
+            case "text":
+            case "email":   
+            case "password":
+            case "number":
+            case "date":
                 return <BasicInputBox {...rest} type={type} />;
-            case "Radio":
+            case "radio":
                 return <RadioInputBox {...rest} />;
-            case "DropDown":
+            case "dropdown":
                 return <DropDownInputBox {...rest} />;
-            case "TextArea":
+            case "textarea":
                 return <TextAreaInput {...rest} />;
-            case "CheckBox":
+            case "checkbox":
                 return <CheckBoxInput {...rest} />;
             default:
                 return null;

@@ -36,12 +36,7 @@ export default function NewDocketFormMaker() {
       ) : (
         <div>
           <HeaderDocket />
-          <div className="mt-20 w-full rounded-t-2xl bg-[#CBD5E1] text-lg font-bold text-[#1E293B] shadow-lg">
-            <h1 className="rounded-t-2xl bg-[#0F766E] py-2 pl-4 text-white">
-              {Headings[docketMainSpaceComponentNo]}
-            </h1>
-            {renderComponent}
-          </div>
+         {renderComponent}
         </div>
       )}
     </>

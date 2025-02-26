@@ -31,7 +31,7 @@ export const addDocket = async (newDocketData) => {
     }
     return "Failed :Row Affected is not one";
   } catch (error) {
-    throw new Error(`Docket Not Added: ${error}`);
+    console.log(`Docket Not Added: ${error}`);
   }
 };
  

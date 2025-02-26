@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { FastField, ErrorMessage } from "formik";
 
-// Simple Text Box, email box, password box, number box, date box
-// 2 required props 1> label 2>type (can be : text,email, password, number, date)
+//3 Required Props 1> lable/ heading of the TextArea 2> Name in Formic Form 
+//      3> type any from Text,Number,Email,Password,Date
 
 const BasicInputBox = React.memo((props) => {
-    console.log(props);
-    const { label, type, ...rest }=props;
+    const { name,label, type, ...rest } = props;
     const labelText = label.charAt(0).toUpperCase() + label.slice(1);
 
     return (
@@ -14,20 +13,25 @@ const BasicInputBox = React.memo((props) => {
             {/* Input Field */}
             <FastField
                 type={type}
-                name={label}
-                id={label}
+                name={name}
+                id={name}
+                placeholder=" "
                 {...rest}
                 className="peer w-full border rounded-lg px-3 pt-4 pb-2 text-gray-800 focus:outline-none transition-all border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             {/* Floating Label */}
             <label
-                htmlFor={label}
-                className="absolute left-3 px-1 transition-all bg-white text-gray-500 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-gray-500 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue-600"
+                htmlFor={name}
+                className="absolute left-3 px-1 bg-[#CBD5E1] text-gray-500 transition-all
+                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 
+                peer-focus:top-3 peer-focus:text-xs peer-focus:text-blue-600 
+                peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-blue-600"
             >
                 {labelText}
             </label>
             {/* Error Message */}
-            <ErrorMessage name={label} component="div" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage name={name} component="div" className="text-red-500 text-sm mt-1" />
         </div>
     );
 });
