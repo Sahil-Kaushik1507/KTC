@@ -13,7 +13,7 @@ export default function NewDocketForm() {
     DocketNo:"",
     Branch: "",
     Date: null,
-    
+
     ConsignorName: "",
     ConsignorAddress: "",
     ConsignorGST: "",
@@ -24,16 +24,18 @@ export default function NewDocketForm() {
 
     Source: "",
     Destination: "",
-    TruckNo: "",
+    LorryNo: "",
     Size: "",
     ActualWeight: "",
     TruckFright: "",
+
     Product: "",
     TotalPackages: "",
     MethodOfPkg: "",
     InvoiceNo: "",
     DeclaredValue: "As Per Bill",
     EwayBillNo: "",
+    
     ProvisionalAmount: "",
     GreenTax: "",
     LabourCharges: "",
