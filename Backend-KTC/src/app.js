@@ -14,7 +14,11 @@ app.use(cors())
     
 // import routes
 import docketRouter from './routes/docket.routes.js';
+import addRouter from './routes/add.routes.js';
+
+
 
 //route decleration 
 app.use('/api/v1/docket',docketRouter);
+app.use('/api/v1/add',addRouter);
 

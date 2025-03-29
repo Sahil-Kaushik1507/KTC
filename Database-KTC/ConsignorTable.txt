@@ -1,0 +1,12 @@
+-- create database ktc;
+-- use ktc;
+
+CREATE TABLE ConsignorDetails (
+    ConsignorID INT AUTO_INCREMENT PRIMARY KEY,
+    ConsigneeName VARCHAR(255) NOT NULL,
+    Address TEXT NOT NULL,
+    GST VARCHAR(15) UNIQUE NOT NULL,
+    ContactPerson VARCHAR(255) NOT NULL,
+    ContactNumber VARCHAR(10) NOT NULL,
+    Branch VARCHAR(100) NOT NULL
+);

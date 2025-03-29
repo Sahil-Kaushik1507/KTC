@@ -4,7 +4,7 @@ import { useSideBarOptionsContextData } from "../../../Context/SideBarOptionsCon
 const SideBar = React.memo(() => {
   const { setSideBarOption } = useSideBarOptionsContextData();
 
-  const sidebarOptionsList = useMemo(() => ["Docket", "Bill", "Payment"], []);
+  const sidebarOptionsList = useMemo(() => ["Docket", "Bill", "Payment","Add"], []);
 
   const handleClick = useCallback(
     (option) => {

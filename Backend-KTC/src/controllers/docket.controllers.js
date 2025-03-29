@@ -1,10 +1,10 @@
 import asyncHandler from "../utils/asynHandler.js";
-import { addDocket } from "../db/set.dockets.js";
+import { addDocket } from "../db/Docket/set.dockets.js";
 
 const nextDocketNo = {
   compnayName: 0,
   Halonix: 11,
-  Hilla:200,
+  Hilla: 200,
 };
 
 export const addNewDocket = asyncHandler(async (req, res) => {
@@ -26,8 +26,8 @@ export const sendNextDocketNo = asyncHandler(async (req, res) => {
     // console.log(req.query);
     const { companyName } = req.query;
     const response = nextDocketNo[companyName];
-    console.log(response)
-    res.json({DocketNo:response});
+    console.log(response);
+    res.json({ DocketNo: response });
   } catch (error) {
     console.log(error);
   }

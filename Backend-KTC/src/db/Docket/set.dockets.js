@@ -1,4 +1,4 @@
-import { getPool } from "./index.js";
+import { getPool } from "../index.js";
 
 //Add a docket (newDocketData--> array of 34 )
 export const addDocket = async (newDocketData) => {
@@ -34,7 +34,7 @@ export const addDocket = async (newDocketData) => {
     console.log(`Docket Not Added: ${error}`);
   }
 };
- 
+
 /* sample docket object
 const docket = {
     DocketNo: 1,

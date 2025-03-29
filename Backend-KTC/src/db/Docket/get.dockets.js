@@ -1,4 +1,4 @@
-import {getPool} from './index.js'
+import {getPool} from '../index.js'
 
 // get all dockets in the table
 export const getAllDockets = async () => {
