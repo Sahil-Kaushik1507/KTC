@@ -1,8 +1,10 @@
 import React, { useMemo, useCallback } from "react";
 import { useSideBarOptionsContextData } from "../../../Context/SideBarOptionsContext.jsx";
+import { useDocketContextData } from "../../../Context/DocketContext.jsx";
 
 const SubSideBar = React.memo(() => {
   const { sideBarOption, setSubSideBarOption } = useSideBarOptionsContextData();
+  const{setIsReadOnly,setSearchedDocketNo}=useDocketContextData();
 
   // Sidebar Options List
   const subSideBarOptionsList = useMemo(
@@ -17,6 +19,10 @@ const SubSideBar = React.memo(() => {
   const handleClick = useCallback(
     (option) => {
       setSubSideBarOption(option);
+      if(option=="New Docket"){
+        setIsReadOnly(false);
+        setSearchedDocketNo(null);
+      }
     },
     [setSubSideBarOption, sideBarOption]
   );

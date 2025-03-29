@@ -1,7 +1,9 @@
 import React from "react";
 import InputControl from "../../../../../InputComponents/InputController";
+import { useDocketContextData } from "../../../../../../Context/DocketContext";
 
 export default function ConsignorConsigneeDetails() {
+  const {isReadOnly}=useDocketContextData();
   return (
     <>
       {/* Consignor Details */}
@@ -10,9 +12,9 @@ export default function ConsignorConsigneeDetails() {
           Consignor Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4">
-          <InputControl name="ConsignorName" label="Consignor Name" type="text" />
-          <InputControl name="ConsignorAddress" label="Consignor Address" type="text" />
-          <InputControl name="ConsignorGST" label="Consignor GST" type="text" />
+          <InputControl name="ConsignorName" label="Consignor Name" type="text" readOnly={isReadOnly}/>
+          <InputControl name="ConsignorAddress" label="Consignor Address" type="text" readOnly={isReadOnly}/>
+          <InputControl name="ConsignorGST" label="Consignor GST" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
 
@@ -22,9 +24,9 @@ export default function ConsignorConsigneeDetails() {
           Consignee Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4 ">
-          <InputControl name="ConsigneeName" label="Consignee Name" type="text" />
-          <InputControl name="ConsigneeAddress" label="Consignee Address" type="text" />
-          <InputControl name="ConsigneeGST" label="Consignee GST" type="text" />
+          <InputControl name="ConsigneeName" label="Consignee Name" type="text" readOnly={isReadOnly}/>
+          <InputControl name="ConsigneeAddress" label="Consignee Address" type="text" readOnly={isReadOnly}/>
+          <InputControl name="ConsigneeGST" label="Consignee GST" type="text" readOnly={isReadOnly}/>
           <InputControl name="ConsigneeContactPerson" label="Contact Person" type="text" />
         </div>
       </div>

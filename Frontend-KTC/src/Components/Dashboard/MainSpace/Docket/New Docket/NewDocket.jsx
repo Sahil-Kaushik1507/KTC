@@ -1,62 +1,18 @@
 import React, { useCallback, useMemo } from "react";
 import { Formik, Form } from "formik";
 import axios from "axios";
-import NewDocketValidationSchema from './NewDocketValidationSchema'
+import NewDocketValidationSchema from "./NewDocketValidationSchema";
 import NewDocketFormMaker from "./NewDocketFormMaker";
-import {useDocketContextData} from '../../../../../Context/DocketContext.jsx'
-
-
+import initialValues from "../InitialValuesOfForm.jsx";
 
 export default function NewDocketForm() {
-    const {currentDocketNo}=useDocketContextData();
-  const initialValues = useMemo(() => ({
-    DocketNo:"",
-    Branch: "",
-    Date: null,
-
-    ConsignorName: "",
-    ConsignorAddress: "",
-    ConsignorGST: "",
-    ConsigneeName: "",
-    ConsigneeAddress: "",
-    ConsigneeGST: "",
-    ConsigneeContactPerson:"",
-
-    Source: "",
-    Destination: "",
-    LorryNo: "",
-    Size: "",
-    ActualWeight: "",
-    TruckFright: "",
-
-    Product: "",
-    TotalPackages: "",
-    MethodOfPkg: "",
-    InvoiceNo: "",
-    DeclaredValue: "As Per Bill",
-    EwayBillNo: "",
-    
-    ProvisionalAmount: "",
-    GreenTax: "",
-    LabourCharges: "",
-    HoldingCharges: "",
-    MultiPointPickUpCharges: "",
-    MultiPointDileveryCharges: "",
-    DocketCharges: "",
-    OtherCharges: "",
-    PaymentMode: "",
-    TotalAmount: "",
-    GSTINPayableBy: "",
-    BillingBranch: "",
-    Remarks: "",
-  }), []);
-
+ 
   const onSubmit = useCallback(async (values) => {
     console.log("Form Data:", values);
     try {
       const response = await axios.post(
         "http://localhost:8000/api/v1/docket/new",
-        values
+        values,
       );
       console.log("Data sent successfully:", response.data);
     } catch (error) {
@@ -64,19 +20,17 @@ export default function NewDocketForm() {
     }
   }, []);
 
-  
-
   return (
-    <Formik initialValues={initialValues} validationSchema={NewDocketValidationSchema} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={NewDocketValidationSchema}
+      onSubmit={onSubmit}
+    >
       {() => (
         <Form>
-         
-         <div>
-            <NewDocketFormMaker/>
-
-         </div>
-
-         
+          <div>
+            <NewDocketFormMaker />
+          </div>
         </Form>
       )}
     </Formik>

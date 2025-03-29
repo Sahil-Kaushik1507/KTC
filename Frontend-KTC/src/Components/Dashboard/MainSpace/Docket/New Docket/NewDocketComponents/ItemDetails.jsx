@@ -1,8 +1,9 @@
 import React from 'react'
 import InputControl from "../../../../../InputComponents/InputController";
-
+import { useDocketContextData } from "../../../../../../Context/DocketContext";
 
 export default function ItemDetails() {
+    const {isReadOnly}=useDocketContextData();
   return (
     <>
      {/* Item Transmitied */}
@@ -11,9 +12,9 @@ export default function ItemDetails() {
           Item Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4">
-          <InputControl name="Product" label="Product" type="text" />
-          <InputControl name="TotalPackages" label="Total Packages" type="text" />
-          <InputControl name="MethodOfPkg" label="Method Of Pkg" type="text" />
+          <InputControl name="Product" label="Product" type="text" readOnly={isReadOnly}/>
+          <InputControl name="TotalPackages" label="Total Packages" type="text" readOnly={isReadOnly}/>
+          <InputControl name="MethodOfPkg" label="Method Of Pkg" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
 
@@ -23,9 +24,9 @@ export default function ItemDetails() {
           Billing Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4 ">
-          <InputControl name="InvoiceNo" label="InvoiceNo" type="text" />
-          <InputControl name="DeclaredValue" label="Declared Value" type="text" />
-          <InputControl name="EwayBillNo" label="Eway Bill No" type="text" />
+          <InputControl name="InvoiceNo" label="InvoiceNo" type="text" readOnly={isReadOnly}/>
+          <InputControl name="DeclaredValue" label="Declared Value" type="text" readOnly={isReadOnly}/>
+          <InputControl name="EwayBillNo" label="Eway Bill No" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
     </>

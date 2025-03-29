@@ -1,7 +1,9 @@
 import React from "react";
 import InputControl from "../../../../../InputComponents/InputController";
+import { useDocketContextData } from "../../../../../../Context/DocketContext";
 
 export default function LorryDetail() {
+    const {isReadOnly}=useDocketContextData();
   return (
     <>
       {/* Movement Details */}
@@ -10,8 +12,8 @@ export default function LorryDetail() {
           Movement Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4">
-          <InputControl name="Source" label="Source" type="text" />
-          <InputControl name="Destination" label="Destination" type="text" />
+          <InputControl name="Source" label="Source" type="text" readOnly={isReadOnly}/>
+          <InputControl name="Destination" label="Destination" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
 
@@ -21,10 +23,10 @@ export default function LorryDetail() {
           Lorry Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4 ">
-          <InputControl name="LorryNo" label="Lorry No" type="text" />
-          <InputControl name="Size" label="Size" type="text" />
-          <InputControl name="ActualWeight" label="Actual Weight" type="text" />
-          <InputControl name="TruckFright" label="TruckFright" type="text" />
+          <InputControl name="LorryNo" label="Lorry No" type="text" readOnly={isReadOnly}/>
+          <InputControl name="Size" label="Size" type="text" readOnly={isReadOnly}/>
+          <InputControl name="ActualWeight" label="Actual Weight" type="text" readOnly={isReadOnly}/>
+          <InputControl name="TruckFright" label="TruckFright" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
     </>

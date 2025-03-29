@@ -37,7 +37,8 @@ export default function DocketNo_Date() {
         />
       </span>
 
-      <span>
+      <span className="flex flex-col">
+        <span>
         Date:{" "}
         <input
           type="text"
@@ -46,6 +47,17 @@ export default function DocketNo_Date() {
           readOnly
           className="border-none bg-transparent text-white outline-none w-22"
         />
+          </span>
+        
+        <span className="text-base text-[#f2af05]">
+          Branch : {" "}
+          <input
+          type="text"
+          name="Branch"
+          value="Haridwar"
+          readOnly
+          className="border-none bg-transparent outline-none w-22"
+        /></span>
       </span>
     </>
   );

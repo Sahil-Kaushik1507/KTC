@@ -1,8 +1,10 @@
 import React from 'react'
 import InputControl from "../../../../../InputComponents/InputController";
+import { useDocketContextData } from "../../../../../../Context/DocketContext";
 
 
 export default function PaymentDetails() {
+  const {isReadOnly}=useDocketContextData();
   return (
       <>
        {/* Charges Details */}
@@ -11,14 +13,14 @@ export default function PaymentDetails() {
           Charges Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4">
-          <InputControl name="ProvisionalAmount" label="Provisional Amount" type="text" />
-          <InputControl name="GreenTax" label="Green Tax" type="text" />
-          <InputControl name="LabourCharges" label="Labour Charges" type="text" />
-          <InputControl name="HoldingCharges" label="Holding Charges" type="text" />
-          <InputControl name="MultiPointPickUpCharges" label="Multi Point PickUp Charges" type="text" />
-          <InputControl name="MultiPointDileveryCharges" label="Multi Point Dilevery Charges" type="text" />
-          <InputControl name="DocketCharges" label="Docket Charges" type="text" />
-          <InputControl name="OtherCharges" label="Other Charges" type="text" />
+          <InputControl name="ProvisionalAmount" label="Provisional Amount" type="text" readOnly={isReadOnly}/>
+          <InputControl name="GreenTax" label="Green Tax" type="text" readOnly={isReadOnly}/>
+          <InputControl name="LabourCharges" label="Labour Charges" type="text" readOnly={isReadOnly}/>
+          <InputControl name="HoldingCharges" label="Holding Charges" type="text" readOnly={isReadOnly}/>
+          <InputControl name="MultiPointPickUpCharges" label="Multi Point PickUp Charges" type="text" readOnly={isReadOnly}/>
+          <InputControl name="MultiPointDileveryCharges" label="Multi Point Dilevery Charges" type="text" readOnly={isReadOnly}/>
+          <InputControl name="DocketCharges" label="Docket Charges" type="text" readOnly={isReadOnly}/>
+          <InputControl name="OtherCharges" label="Other Charges" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
 
@@ -28,11 +30,11 @@ export default function PaymentDetails() {
         Payment-GST Details
         </h1>
         <div className="grid grid-cols-2 gap-4 p-4 ">
-          <InputControl name="TotalAmount" label="Total Amount" type="text" />
-          <InputControl name="GSTINPayableBy" label="GSTIN Payable By" type="text" />
-          <InputControl name="PaymentMode" label="Payment Mode" type="text" />
-          <InputControl name="BillingBranch" label="Billing Branch" type="text" />
-          <InputControl name="Remarks" label="Remarks" type="text" />
+          <InputControl name="TotalAmount" label="Total Amount" type="text" readOnly={isReadOnly}/>
+          <InputControl name="GSTINPayableBy" label="GSTIN Payable By" type="text" readOnly={isReadOnly}/>
+          <InputControl name="PaymentMode" label="Payment Mode" type="text" readOnly={isReadOnly}/>
+          <InputControl name="BillingBranch" label="Billing Branch" type="text" readOnly={isReadOnly}/>
+          <InputControl name="Remarks" label="Remarks" type="text" readOnly={isReadOnly}/>
         </div>
       </div>
       </>
