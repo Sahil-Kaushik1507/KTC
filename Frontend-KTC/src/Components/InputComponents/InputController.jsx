@@ -4,6 +4,7 @@ import CheckBoxInput from "./CheckBoxInput";
 import DropDownInputBox from "./DropDownInputBox";
 import RadioInputBox from "./RadioInputBox";
 import TextAreaInput from "./TextAreaInput";
+import SelectInputBox from "./SelectInputBox";
 
 const InputControl = React.memo(({ type, ...rest }) => {
 
@@ -19,6 +20,8 @@ const InputControl = React.memo(({ type, ...rest }) => {
                 return <RadioInputBox {...rest} />;
             case "dropdown":
                 return <DropDownInputBox {...rest} />;
+            case "select":
+                return <SelectInputBox {...rest} />;
             case "textarea":
                 return <TextAreaInput {...rest} />;
             case "checkbox":

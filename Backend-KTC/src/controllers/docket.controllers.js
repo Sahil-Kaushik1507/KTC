@@ -1,5 +1,6 @@
 import asyncHandler from "../utils/asynHandler.js";
 import { addDocket } from "../db/Docket/set.dockets.js";
+import { getConsignorDetails } from "../db/Add/get.consignorDetails.js";
 
 const nextDocketNo = {
   compnayName: 0,
@@ -26,8 +27,11 @@ export const sendNextDocketNo = asyncHandler(async (req, res) => {
     // console.log(req.query);
     const { companyName } = req.query;
     const response = nextDocketNo[companyName];
+    const response1 = await getConsignorDetails();
+
     console.log(response);
-    res.json({ DocketNo: response });
+    console.log(response1)
+    res.json({ DocketNo: response , consignorDetails:response1});
   } catch (error) {
     console.log(error);
   }
