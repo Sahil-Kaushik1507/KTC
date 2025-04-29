@@ -33,8 +33,8 @@ export default function PaymentDetails() {
           <InputControl name="TotalAmount" label="Total Amount" type="text" readOnly={isReadOnly}/>
           <InputControl name="GSTINPayableBy" label="GSTIN Payable By" type="text" readOnly={isReadOnly}/>
           <InputControl name="PaymentMode" label="Payment Mode" type="text" readOnly={isReadOnly}/>
-          <InputControl name="BillingBranch" label="Billing Branch" type="text" readOnly={isReadOnly}/>
-          <InputControl name="Remarks" label="Remarks" type="text" readOnly={isReadOnly}/>
+          <InputControl name="BillingBranch" label="Billing Branch" type="text" readOnly={isReadOnly} initialValues="Haridwar" />
+          <InputControl name="Remarks" label="Remarks" type="text" readOnly={isReadOnly} />
         </div>
       </div>
       </>

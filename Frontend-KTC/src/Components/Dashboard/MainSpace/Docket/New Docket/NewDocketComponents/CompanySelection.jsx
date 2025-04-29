@@ -18,7 +18,7 @@ export default function CompanySelection() {
         },
       );
       setCurrentDocketNo(data.DocketNo);
-      console.log("Docket Number:", data.DocketNo);
+      console.log(data);
     } catch (error) {
       console.error("API Error:", error.message || error);
     }

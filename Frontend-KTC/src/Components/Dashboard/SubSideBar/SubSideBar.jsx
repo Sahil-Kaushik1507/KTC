@@ -12,7 +12,7 @@ const SubSideBar = React.memo(() => {
       Docket: ["New Docket", "View Docket"],
       Bill: ["New Bill", "View Bill"],
       Payment: ["New Payment", "View Payment"],
-      Add:["Consignor","Consignee","Rates"],
+      Add:["Consignor","Consignee","Rates","Branch"],
     }),
     []
   );

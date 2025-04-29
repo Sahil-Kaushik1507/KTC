@@ -1,0 +1,18 @@
+-- create database ktc;
+-- use ktc;
+
+CREATE TABLE Branch (
+    BranchID  VARCHAR(255) PRIMARY KEY,
+    BranchName VARCHAR(255) NOT NULL,
+    Address TEXT NOT NULL,
+    BranchManager VARCHAR(255) NOT NULL,
+    ManagerContactNumber VARCHAR(10) NOT NULL UNIQUE,
+    StaffIfAny VARCHAR(255) ,
+    StaffContactNumber VARCHAR(10) UNIQUE
+    
+);
+
+INSERT INTO Branch 
+(BranchID,BranchName, Address, BranchManager, ManagerContactNumber) 
+VALUES 
+("UK01","Haridwar", "Goel Rice Meal Bhadrabad Haridwar (UK)", "Jasbir Kaushik", "8077958775");
