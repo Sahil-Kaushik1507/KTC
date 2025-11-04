@@ -4,129 +4,196 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 // Styles
 const styles = StyleSheet.create({
   page: {
-    padding: 15,
+    padding: 20,
     backgroundColor: '#fff',
     flexDirection: 'column',
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: 'Helvetica',
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottom: '1px solid #000',
-    paddingBottom: 4,
-    marginBottom: 6,
+    paddingBottom: 6,
+    marginBottom: 10,
   },
   logo: {
-    width: 150,
-    height: 100,
+    width: 160,
+    height: 70,
     marginRight: 10,
-   
   },
   headerTextContainer: {
     flex: 2,
     textAlign: 'center',
   },
   headerTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   subHeader: {
-    fontSize: 9,
+    fontSize: 10,
     marginTop: 2,
   },
   sectionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 3,
+    marginBottom: 4,
   },
   box: {
     flex: 1,
     border: '1px solid #000',
-    padding: 5,
+    padding: 6,
     margin: 1,
   },
   label: {
     fontWeight: 'bold',
   },
+  size2: {
+    fontSize: 12,
+  },
+
+  secondSection: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  productSection: {
+    width: 630,
+  },
+  itemDetails: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'space-evenly'
+  },
+
   table: {
     display: 'table',
-    width: '100%',
+    width: '90%',
     border: '1px solid #000',
-    marginTop: 5,
+    marginTop: 6,
+    marginBottom: 6,
   },
   tableRow: {
     flexDirection: 'row',
   },
   tableColHeader: {
-    width: '16.6%',
+    width: '25%',
     borderRight: '1px solid #000',
     backgroundColor: '#f0f0f0',
-    padding: 2,
+    padding: 3,
     fontWeight: 'bold',
+    fontSize: 10,
   },
   tableCol: {
-    width: '16.6%',
+    width: '25%',
     borderRight: '1px solid #000',
-    padding: 2,
+    padding: 3,
+    fontSize: 10,
   },
-  tableText: {
-    fontSize: 8,
+
+riskBox: {
+  display: 'flex',
+  justifyContent: 'center', 
+  alignItems: 'center',     
+  border: '1px solid #000', 
+  height: 40,               
+  width: '17%',  
+  marginLeft:10,          
+
+},
+
+riskText: {
+  fontSize: 11,
+  fontWeight: 'bold',
+  textAlign: 'center',
+},
+
+
+  freightSection: {
+    marginLeft: 10,
+    width: 160,
   },
+
   footer: {
     textAlign: 'center',
-    marginTop: 8,
-    fontSize: 8,
+    marginTop: 10,
+    fontSize: 9,
+  },
+  termsContainer: {
+    marginTop: 6,
+    borderTop: '1px solid #000',
+    paddingTop: 6,
+  },
+  termItem: {
+    fontSize: 9,
+    marginTop: 2,
+    lineHeight: 1.4,
+    textAlign: 'justify',
   },
 });
 
+// Sample Data
 const Docket = {
-  DocketNo: "6605",
-  Branch: "Haridwar",
-  Date: "28/10/2025",
-  TruckNo: "UK08A 5566",
-  ConsignorName: "ABC Traders",
-  ConsignorAddress: "12 Industrial Area, Delhi",
-  ConsigneeName: "XYZ Retail Pvt. Ltd.",
-  ConsigneeAddress: "45 Mall Road, Gurugram",
-  Product: "Electrical Goods",
+  DocketNo: "ANU24567",
+  Branch: "Kolkata",
+  Date: "2025-11-04",
+
+  ConsignorName: "ABC Manufacturing Pvt. Ltd.",
+  ConsignorAddress: "Plot No. 56, Industrial Area, Pune, Maharashtra - 411038",
+  ConsignorGST: "27AAACA1234F1Z9",
+  ConsigneeName: "XYZ Traders Pvt. Ltd.",
+  ConsigneeAddress: "Plot No. 56, 12A, MG Road, Bengaluru, Karnataka - 560001",
+  ConsigneeGST: "29AAACX1234M1Z6",
+  ConsigneeContact: "Mr. Rohan Kumar - 9825020102",
+
+  Source: "Pune",
+  Destination: "Bengaluru",
+  LorryNo: "MH12AB5678",
+  Size: "20 Feet",
+  ActualWeight: "1450 Kg",
+  TruckFright: "12000",
+
+  Product: "Industrial Spare Parts",
   TotalPackages: "25",
-  ActualWeight: "1800 kg",
-  Freight: "₹3500",
-  Labour: "₹200",
-  OtherCharges: "₹100",
-  TotalAmount: "₹3800",
+  MethodOfPkg: "Wooden Crates",
+  InvoiceNo: "INV/2025/1123",
+  DeclaredValue: "As Per Bill",
+  EwayBillNo: "321005445667",
+  GSTINPayableBy: "Consignor",
+
   PaymentMode: "To Pay",
-  Remarks: "Handle with care",
+  BillingBranch: "Pune Branch",
+  Remarks: "Handle with care – fragile items.",
 };
 
-// Row component
+// Row Component
 const Row = ({ label, value }) => (
   <Text>
-    <Text style={styles.label}>{label}:</Text> {value || '-'}
+    <Text style={styles.label}>{label}:</Text> {value || ' - '}
   </Text>
 );
 
 export default function DocketPDF() {
   return (
     <Document>
-      <Page size="A4"  style={styles.page}>
+      <Page size="A4" style={styles.page} orientation="landscape">
 
-        {/* Header with Logo */}
+        {/* Header */}
         <View style={styles.headerContainer}>
-          {/* 🖼️ Replace with your actual logo path or URL */}
-          <Image
-            style={styles.logo}
-            // src="/Logo-png.png"
-            src="/KTCLogo.png"
-          />
+          <Image style={styles.logo} src="/KTCLogo.png" />
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>KAUSHIK TRANSPORT COMPANY (REGD.)</Text>
             <Text style={styles.subHeader}>
-              H.O.: Kaushik House, Transport Nagar, Jwalapur, Haridwar (U.K)
+              H.O.: Kaushik House, T.O.-1/40 Transport Nagar, Jwalapur, Haridwar (U.K)-249407
+            </Text>
+            <Text style={styles.subHeader}>
+              B.O.: Goel Rice Mills Compound, New Sidcul Bypass Road, Bahadrabad, Haridwar (U.K)-249402
             </Text>
             <Text style={styles.subHeader}>
               Mob: 8077958775, 9720169680 | Email: ktc.haridwar@gmail.com
+            </Text>
+            <Text style={styles.subHeader}>
+              GSTIN: 05AMKPJ3865E1Z2 | PAN: AMKPJ3865E | SAC/HSN Code: 996511
             </Text>
           </View>
         </View>
@@ -136,60 +203,132 @@ export default function DocketPDF() {
           <View style={styles.box}><Row label="GR No." value={Docket.DocketNo} /></View>
           <View style={styles.box}><Row label="Date" value={Docket.Date} /></View>
           <View style={styles.box}><Row label="Branch" value={Docket.Branch} /></View>
-          <View style={styles.box}><Row label="Truck No" value={Docket.TruckNo} /></View>
-          <View style={styles.box}><Row label="Payment" value={Docket.PaymentMode} /></View>
+          <View style={styles.box}><Row label="From" value={Docket.Source} /></View>
+          <View style={styles.box}><Row label="To" value={Docket.Destination} /></View>
         </View>
 
         {/* Consignor & Consignee */}
         <View style={styles.sectionRow}>
-          <View style={[styles.box, { flex: 1 }]}>
-            <Text style={styles.label}>Consignor</Text>
+          <View style={[styles.box, { flex: 2 }]}>
+            <Text style={[styles.label, styles.size2]}>Consignor</Text>
             <Text>{Docket.ConsignorName}</Text>
             <Text>{Docket.ConsignorAddress}</Text>
+            <Text><Text style={styles.label}>GST:</Text> {Docket.ConsignorGST}</Text>
           </View>
-          <View style={[styles.box, { flex: 1 }]}>
-            <Text style={styles.label}>Consignee</Text>
+
+          <View style={[styles.box, { flex: 2 }]}>
+            <Text style={[styles.label, styles.size2]}>Consignee</Text>
             <Text>{Docket.ConsigneeName}</Text>
             <Text>{Docket.ConsigneeAddress}</Text>
+            <Text><Text style={styles.label}>GST:</Text> {Docket.ConsigneeGST}</Text>
+            <Text><Text style={styles.label}>Contact:</Text> {Docket.ConsigneeContact}</Text>
+          </View>
+
+          <View style={[styles.box, { flex: 1 }]}>
+            <Row label="Truck No" value={Docket.LorryNo} />
+            <Row label="Size" value={Docket.Size} />
+            <Row label="Act. Wt." value={Docket.ActualWeight} />
+            <Row label="Freight" value=" " />
           </View>
         </View>
 
-        {/* Goods Table */}
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <Text style={styles.tableColHeader}>Description</Text>
-            <Text style={styles.tableColHeader}>Total Pkgs</Text>
-            <Text style={styles.tableColHeader}>Actual Wt.</Text>
-            <Text style={styles.tableColHeader}>Freight</Text>
-            <Text style={styles.tableColHeader}>Labour</Text>
-            <Text style={styles.tableColHeader}>Other Ch.</Text>
+        <View style={styles.secondSection}>
+          <View style={styles.productSection}>
+
+            <View style={styles.itemDetails}>
+              <View style={styles.table}>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableColHeader}>Description</Text>
+                  <Text style={styles.tableColHeader}>Total Pkgs</Text>
+                  <Text style={styles.tableColHeader}>Method of Pkg</Text>
+                  <Text style={styles.tableColHeader}>Declared Value</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCol}>{Docket.Product}</Text>
+                  <Text style={styles.tableCol}>{Docket.TotalPackages}</Text>
+                  <Text style={styles.tableCol}>{Docket.MethodOfPkg}</Text>
+                  <Text style={styles.tableCol}>{Docket.DeclaredValue}</Text>
+
+                </View>
+              </View>
+              <View style={styles.riskBox}>
+                <Text style={styles.riskText}>At Owner's Risk</Text>
+              </View>
+            </View>
+            {/* Eway Bill */}
+            <View style={styles.sectionRow}>
+              <View style={styles.box}><Row label="Invoice No." value={Docket.InvoiceNo} /></View>
+            </View>
+            <View style={styles.sectionRow}>
+              <View style={styles.box}><Row label="Eway Bill No." value={Docket.EwayBillNo} /></View>
+            </View>
+
           </View>
 
-          <View style={styles.tableRow}>
-            <Text style={styles.tableCol}>{Docket.Product}</Text>
-            <Text style={styles.tableCol}>{Docket.TotalPackages}</Text>
-            <Text style={styles.tableCol}>{Docket.ActualWeight}</Text>
-            <Text style={styles.tableCol}>{Docket.Freight}</Text>
-            <Text style={styles.tableCol}>{Docket.Labour}</Text>
-            <Text style={styles.tableCol}>{Docket.OtherCharges}</Text>
+          <View>
+            <View style={[styles.box, styles.freightSection]}>
+              <Row label="Truck No" value={Docket.LorryNo} />
+              <Row label="Size" value={Docket.Size} />
+              <Row label="Act. Wt." value={Docket.ActualWeight} />
+              <Row label="Freight" value=" " />
+            </View>
           </View>
+
+
         </View>
 
-        {/* Footer Info */}
+        {/* Footer Section */}
         <View style={styles.sectionRow}>
           <View style={styles.box}>
-            <Row label="Total Amount" value={Docket.TotalAmount} />
+            <Row label="Amount" value=" " />
+            <Row label="Payment Mode" value={Docket.PaymentMode} />
+            <Row label="Billing Branch" value={Docket.BillingBranch} />
+            <Row label="GST Payble By" value={Docket.GSTINPayableBy} />
+          </View>
+          <View style={styles.box}>
             <Row label="Remarks" value={Docket.Remarks} />
           </View>
           <View style={styles.box}>
             <Text>For KAUSHIK TRANSPORT COMPANY</Text>
-            <Text style={{ marginTop: 20 }}>Authorized Signatory</Text>
+            <Text style={{ marginTop: 25 }}>Authorized Signatory</Text>
           </View>
         </View>
 
-        <Text style={styles.footer}>
-          Subject to Haridwar Jurisdiction | Kindly do not deduct TDS under Section 194C of I.T. Act 1961
-        </Text>
+        {/* Terms and Conditions */}
+        <View style={styles.termsContainer}>
+          <Text style={[styles.footer, styles.label]}>
+            This G.C. Note is issued subject to the following Terms & Conditions:
+          </Text>
+
+          <Text style={styles.termItem}>
+            1. Shipment shall not be detained, diverted, or re-routed without the written approval of the consignor or consignee, and delivery will be made only at the destination mentioned in this docket.
+          </Text>
+          <Text style={styles.termItem}>
+            2. All goods are carried entirely at the consignor’s/owner’s risk, and the company is not responsible for any loss or damage due to natural causes, accidents, theft, fire, leakage, or other unavoidable events.
+          </Text>
+          <Text style={styles.termItem}>
+            3. Perishable, fragile, or liquid goods are accepted strictly at the owner’s risk.
+          </Text>
+          <Text style={styles.termItem}>
+            4. The company does not accept valuables (gold, jewelry, documents, etc.) or prohibited/inflammable items unless properly declared and permitted.
+          </Text>
+          <Text style={styles.termItem}>
+            5. The consignee must collect goods within 24 hours of arrival; demurrage charges of ₹2 per quintal per day on billed weight will apply after 15 days or beyond the permitted free period.
+          </Text>
+          <Text style={styles.termItem}>
+            6. Undelivered consignments may be disposed of by auction after two months, or after two days in the case of perishables.
+          </Text>
+          <Text style={styles.termItem}>
+            7. The company reserves the right to delay, detain, or cancel transport or delivery without prior notice.
+          </Text>
+          <Text style={styles.termItem}>
+            8. No TDS deduction under Section 194C of the Income Tax Act, 1961 shall be made on transportation charges.
+          </Text>
+          <Text style={styles.termItem}>
+            9. All disputes are subject to District Court, Haridwar jurisdiction Only.
+          </Text>
+
+        </View>
       </Page>
     </Document>
   );
