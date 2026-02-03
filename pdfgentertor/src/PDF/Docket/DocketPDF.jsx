@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   headerTextContainer: {
     flex: 2,
     textAlign: 'center',
+    
   },
   headerTitle: {
     fontSize: 16,
@@ -39,20 +40,54 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 4,
   },
+
+  copyBox:{
+
+    display: 'flex',
+   justifyContent: 'center', 
+    alignItems: 'center',     
+    border: '3px solid #000', 
+    padding:5,
+      //  height: 40,               
+      // width: '17%',  
+  // marginLeft:10,      
+
+  },
+
+  truckdetails:{
+  flex: 1,
+  border: '1px solid #000',
+  padding: 6,
+  margin: 1,
+  height: 50,        
+  justifyContent: 'flex-start'
+  },
+
+freightSection: {
+    marginLeft: 10,
+  width: 160,
+  // minHeight: 150,
+  position:"absolute",
+  top:-25,      
+  // justifyContent: 'space-between',
+  },
+
   box: {
     flex: 1,
     border: '1px solid #000',
     padding: 6,
     margin: 1,
   },
+
   label: {
     fontWeight: 'bold',
   },
+
   size2: {
     fontSize: 12,
   },
 
-  secondSection: {
+  Item_Freight_InvoiceSection: {
     display: 'flex',
     flexDirection: 'row',
   },
@@ -109,10 +144,7 @@ riskText: {
 },
 
 
-  freightSection: {
-    marginLeft: 10,
-    width: 160,
-  },
+  
 
   footer: {
     textAlign: 'center',
@@ -133,6 +165,7 @@ riskText: {
 });
 
 // Sample Data
+
 const Docket = {
   DocketNo: "ANU24567",
   Branch: "Kolkata",
@@ -141,6 +174,7 @@ const Docket = {
   ConsignorName: "ABC Manufacturing Pvt. Ltd.",
   ConsignorAddress: "Plot No. 56, Industrial Area, Pune, Maharashtra - 411038",
   ConsignorGST: "27AAACA1234F1Z9",
+
   ConsigneeName: "XYZ Traders Pvt. Ltd.",
   ConsigneeAddress: "Plot No. 56, 12A, MG Road, Bengaluru, Karnataka - 560001",
   ConsigneeGST: "29AAACX1234M1Z6",
@@ -151,20 +185,36 @@ const Docket = {
   LorryNo: "MH12AB5678",
   Size: "20 Feet",
   ActualWeight: "1450 Kg",
-  TruckFright: "12000",
 
+  /* ========= PRODUCT DETAILS ========= */
   Product: "Industrial Spare Parts",
   TotalPackages: "25",
   MethodOfPkg: "Wooden Crates",
+  DeclaredValue: "₹4,50,000",
   InvoiceNo: "INV/2025/1123",
-  DeclaredValue: "As Per Bill",
-  EwayBillNo: "321005445667",
-  GSTINPayableBy: "Consignor",
+  EwayBillNo: "321005445667, 321005445667, 321005445667, 321005445667, 321005445667, 321005445667",
 
+  /* ========= FREIGHT BREAKUP ========= */
+  FreightDetails: {
+    Freight: "12,000",
+    MultiPointPickUp: "1,000",
+    MultiPointDelivery: "500",
+    Labour: "800",
+    DocketCharge: "100",
+    OtherCharges: "200",
+    SubTotal: "14,600",
+    OtherStateTax: "1400",
+    GST: "2,628",
+    GrandTotal: "17,228",
+  },
+
+  /* ========= PAYMENT ========= */
   PaymentMode: "To Pay",
   BillingBranch: "Pune Branch",
+  GSTINPayableBy: "Consignor",
   Remarks: "Handle with care – fragile items.",
 };
+
 
 // Row Component
 const Row = ({ label, value }) => (
@@ -180,7 +230,7 @@ export default function DocketPDF() {
 
         {/* Header */}
         <View style={styles.headerContainer}>
-          <Image style={styles.logo} src="/KTCLogo.png" />
+          <Image style={styles.logo} src="/logo1.png" />
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>KAUSHIK TRANSPORT COMPANY (REGD.)</Text>
             <Text style={styles.subHeader}>
@@ -195,6 +245,11 @@ export default function DocketPDF() {
             <Text style={styles.subHeader}>
               GSTIN: 05AMKPJ3865E1Z2 | PAN: AMKPJ3865E | SAC/HSN Code: 996511
             </Text>
+          </View>
+          <View>
+              <View style={styles.copyBox}>
+                <Text style={styles.riskText}>TRANSPORTER COPY</Text>
+              </View>
           </View>
         </View>
 
@@ -224,15 +279,15 @@ export default function DocketPDF() {
             <Text><Text style={styles.label}>Contact:</Text> {Docket.ConsigneeContact}</Text>
           </View>
 
-          <View style={[styles.box, { flex: 1 }]}>
+          <View style={styles.truckdetails}>
             <Row label="Truck No" value={Docket.LorryNo} />
-            <Row label="Size" value={Docket.Size} />
+            {/* <Row label="Size" value= /> */}
             <Row label="Act. Wt." value={Docket.ActualWeight} />
-            <Row label="Freight" value=" " />
+            <Row label="Chargerd Wt./ Size" value={Docket.Size} />
           </View>
         </View>
 
-        <View style={styles.secondSection}>
+        <View style={styles.Item_Freight_InvoiceSection}>
           <View style={styles.productSection}>
 
             <View style={styles.itemDetails}>
@@ -267,10 +322,16 @@ export default function DocketPDF() {
 
           <View>
             <View style={[styles.box, styles.freightSection]}>
-              <Row label="Truck No" value={Docket.LorryNo} />
-              <Row label="Size" value={Docket.Size} />
-              <Row label="Act. Wt." value={Docket.ActualWeight} />
-              <Row label="Freight" value=" " />
+              <Row label="Freight" value={Docket.FreightDetails.Freight} />
+              <Row label="MultiPoint PickUp" value={Docket.FreightDetails.MultiPointPickUp} />
+              <Row label="MultiPoint Delivery" value={Docket.FreightDetails.MultiPointDelivery} />
+              <Row label="Labour" value={Docket.FreightDetails.Labour} />
+              <Row label="Docket Charge" value={Docket.FreightDetails.DocketCharge} />
+              <Row label="Other Charges" value={Docket.FreightDetails.OtherCharges} />
+              <Row label="Sub Total" value={Docket.FreightDetails.SubTotal} />
+              <Row label="Other State Tax" value={Docket.FreightDetails.OtherStateTax} />
+              <Row label="GST" value={Docket.FreightDetails.GST} />
+              <Row label="Grand Total" value={Docket.FreightDetails.GrandTotal} />
             </View>
           </View>
 

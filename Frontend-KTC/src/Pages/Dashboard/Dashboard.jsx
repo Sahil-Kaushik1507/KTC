@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../Header/Header";
-import SideBar from "./SideBar/SideBar";
-import SubSideBar from "./SubSideBar/SubSideBar";
-import MainSpace from "./MainSpace/MainSpace";
-import Footer from "../Footer/Footer";
+import Header from "../../Components/Header/Header";
+import SideBar from "../../Components/SideBar/SideBar";
+import SubSideBar from "../../Components/SubSideBar/SubSideBar";
+import MainSpace from "../Dashboard/MainSpace.jsx";
+import Footer from "../../Components/Footer/Footer.jsx";
 
 const Dashboard = React.memo(() => {
   return (

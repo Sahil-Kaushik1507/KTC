@@ -1,5 +1,5 @@
-import NewDocket from "./Docket/New Docket/NewDocket";
-import ViewDocket from "./Docket/View Docket/ViewDocket";
+import NewDocket from "../Docket/New Docket/NewDocket";
+import ViewDocket from "../Docket/View Docket/ViewDocket";
 
 const ComponentMap = {
   Docket: {

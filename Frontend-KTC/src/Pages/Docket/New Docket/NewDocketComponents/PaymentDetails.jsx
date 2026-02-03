@@ -1,6 +1,6 @@
 import React from 'react'
-import InputControl from "../../../../../InputComponents/InputController";
-import { useDocketContextData } from "../../../../../../Context/DocketContext";
+import InputControl from "../../../../Components/InputComponents/InputController";
+import { useDocketContextData } from "../../../../Context/DocketContext";
 
 
 export default function PaymentDetails() {

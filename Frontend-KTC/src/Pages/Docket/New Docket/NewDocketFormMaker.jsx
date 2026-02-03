@@ -5,7 +5,7 @@ import LorryDetail from "./NewDocketComponents/LorryDetail.jsx";
 import ConsignorConsigneeDetails from "./NewDocketComponents/ConsignorConsigneeDetails.jsx";
 import ItemDetails from "./NewDocketComponents/ItemDetails.jsx";
 import PaymentDetails from "./NewDocketComponents/PaymentDetails.jsx";
-import { useDocketContextData } from "../../../../../Context/DocketContext.jsx";
+import { useDocketContextData } from "../../../Context/DocketContext.jsx";
 
 export default function NewDocketFormMaker() {
   const { docketMainSpaceComponentNo } = useDocketContextData();

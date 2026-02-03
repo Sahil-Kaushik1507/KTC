@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import { useSideBarOptionsContextData } from "../../../Context/SideBarOptionsContext.jsx";
+import { useSideBarOptionsContextData } from "../../Context/SideBarOptionsContext.jsx";
 
 const SideBar = React.memo(() => {
   const { setSideBarOption } = useSideBarOptionsContextData();
