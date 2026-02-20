@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useDocketContextData } from "../../../../Context/DocketContext.jsx";
-import axios from "axios";
-import HeaderDocket from "./HeaderDocket/HeaderDocket.jsx";
+import api from "../../../../api/axios.js";
 
 export default function CompanySelection() {
   const { setDocketMainSpaceComponentNo, setCurrentDocketNo } =
@@ -11,14 +10,15 @@ export default function CompanySelection() {
 
   const fetchCompanyNextDocket = useCallback(async (companyName) => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:8000/api/v1/docket/new/company",
+    
+      const { data } = await api.get(
+        "/api/v1/docket/new/company",
         {
           params: { companyName },
         },
       );
       setCurrentDocketNo(data.DocketNo);
-      console.log(data);
+      console.log(data.DocketNo);
     } catch (error) {
       console.error("API Error:", error.message || error);
     }

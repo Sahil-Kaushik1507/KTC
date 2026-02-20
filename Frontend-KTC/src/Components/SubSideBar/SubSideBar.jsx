@@ -10,7 +10,7 @@ const SubSideBar = React.memo(() => {
   const subSideBarOptionsList = useMemo(
     () => ({
       Docket: ["New Docket", "View Docket"],
-      Bill: ["New Bill", "View Bill"],
+      Bill: ["New Bill", "View Bill","UnBilled Dockets"],
       Payment: ["New Payment", "View Payment"],
       Add:["Consignor","Consignee","Rates","Branch"],
     }),

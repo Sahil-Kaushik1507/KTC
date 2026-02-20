@@ -1,17 +1,17 @@
 import React, { useCallback, useMemo } from "react";
 import { Formik, Form } from "formik";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import NewDocketValidationSchema from "./NewDocketValidationSchema";
 import NewDocketFormMaker from "./NewDocketFormMaker";
-import initialValues from "../InitialValuesOfForm.jsx";
+import initialValues from "../InitialValuesDocketForm.jsx";
 
 export default function NewDocketForm() {
  
   const onSubmit = useCallback(async (values) => {
     console.log("Form Data:", values);
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/docket/new",
+      const response = await api.post(
+        "/api/v1/docket/new",
         values,
       );
       console.log("Data sent successfully:", response.data);

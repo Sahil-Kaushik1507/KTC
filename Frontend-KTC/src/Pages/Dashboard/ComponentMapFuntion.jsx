@@ -1,6 +1,6 @@
 import NewDocket from "../Docket/New Docket/NewDocket";
 import ViewDocket from "../Docket/View Docket/ViewDocket";
-
+import NewBill from "../Bills/New Bill/NewBill";
 const ComponentMap = {
   Docket: {
     "New Docket": <NewDocket />,
@@ -8,8 +8,9 @@ const ComponentMap = {
     Welcome: <>Welcome</>,
   },
   Bill: {
-    "New Bill": <>New Bill</>,
+    "New Bill": <NewBill/>,
     "View Bill": <>View Bills</>,
+    "UnBilled Docket":<>UnBilled Dockets</>,
     Welcome: <>Welcome</>,
   },
   Payment: {

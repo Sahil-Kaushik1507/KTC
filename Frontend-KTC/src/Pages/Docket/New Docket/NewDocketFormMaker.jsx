@@ -19,8 +19,8 @@ export default function NewDocketFormMaker() {
   const renderComponent = useMemo(() => {
     const components = {
       1: <ConsignorConsigneeDetails />,
-      2: <LorryDetail />,
-      3: <ItemDetails />,
+      2: <ItemDetails />,
+      3: <LorryDetail />,
       4: <PaymentDetails />,
     };
 
