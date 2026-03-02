@@ -1,7 +1,7 @@
-import asyncHandler from "../utils/asynHandler.js";
-import { addDocket } from "../db/Docket/set.dockets.js";
-import { getConsignorDetails } from "../db/Add/get.consignorDetails.js";
-import { getBranchDetails } from "../db/Add/get.BranchDetails.js";
+import asyncHandler from "../../middlewares/asyncHandler.js";
+import { addDocket } from "./docket.model.js";
+import { getConsignorDetails } from "../party/party.model.js";
+import { getBranchDetails } from "../branch/branch.model.js";
 
 const nextDocketNo = {
   compnayName: 0,

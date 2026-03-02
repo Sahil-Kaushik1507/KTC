@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {addNewDocket,sendNextDocketNo} from '../controllers/docket.controllers.js'
+import {addNewDocket,sendNextDocketNo} from './docket.controllers.js'
 const router = Router();
 
 

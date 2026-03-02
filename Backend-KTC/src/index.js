@@ -1,13 +1,33 @@
 import 'dotenv/config'
-import {connectToDatabase} from '../src/db/index.js'
+import {connectToDatabase} from '../src/config/db.js'
 import { app } from './app.js';
+import {setupDatabase} from './database/index.js'
 
-connectToDatabase()
-.then(()=>{
-  app.listen(process.env.PORT||8000,()=>{
-    console.log(`Server started at ${process.env.PORT}`)
-  })
-})
-.catch((error)=>{
-console.error("Database Not Connected", error);
-})
+const startServer = async () => {
+
+  try{
+     await connectToDatabase()
+    //  await setupDatabase()
+
+    app.listen(process.env.PORT||8000,()=>{
+      console.log(`Server started at ${process.env.PORT}`)
+    })
+
+     } catch (error) {
+    console.error("Startup failed:", error);
+  }
+      
+
+  }
+
+// connectToDatabase()
+// .then(()=>{
+//   app.listen(process.env.PORT||8000,()=>{
+//     console.log(`Server started at ${process.env.PORT}`)
+//   })
+// })
+// .catch((error)=>{
+// console.error("Database Not Connected", error);
+// })
+
+startServer();
