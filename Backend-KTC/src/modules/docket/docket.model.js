@@ -7,7 +7,7 @@ export const getAllDockets = async () => {
         if (!connectionPool) {
             throw new Error('Database connection pool is not initialized.');
         }
-        const [allDockets] = await connectionPool.query("SELECT * FROM DOCKET");
+        const [allDockets] = await connectionPool.query("SELECT * FROM DOCKETS");
         return allDockets;
     } catch (error) {
         console.error('Error fetching dockets:', error);
@@ -24,7 +24,7 @@ export const getDocket = async (DocketNo) => {
         if (!connectionPool) {
             throw new Error('Database connection pool is not initialized.');
         }
-        const [Docket] = await connectionPool.query(`SELECT * FROM DOCKET WHERE DocketNo=?`,[DocketNo]);
+        const [Docket] = await connectionPool.query(`SELECT * FROM DOCKETS WHERE DocketNo=?`,[DocketNo]);
         if(Docket.length===0){
             return`Docket Number:${DocketNo} does not exist.`
         }

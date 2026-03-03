@@ -1,4 +1,3 @@
-
 -- ==============================
 -- DATABASE (Optional)
 -- ==============================
@@ -6,13 +5,13 @@
 -- USE ktc_db;
 
 -- ==============================
--- BRANCHES
--- ==============================
+-- BRANCHES (without manager first)
 -- ==============================
 CREATE TABLE IF NOT EXISTS branches (
     branch_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_name VARCHAR(150) NOT NULL UNIQUE,
-    address TEXT
+    address TEXT,
+    next_docket INT 
 );
 
 -- ==============================
@@ -28,17 +27,16 @@ CREATE TABLE IF NOT EXISTS employees (
     salary DECIMAL(12,2),
     date_of_leaving DATE,
     role ENUM('MANAGER','ACCOUNTANT','OPERATOR','ADMIN','HELPER') NOT NULL,
-
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL
 );
 
 -- ==============================
--- ADD MANAGER FK AFTER EMPLOYEE
+-- Add manager_id to branches (after employees)
 -- ==============================
 ALTER TABLE branches
-ADD COLUMN manager_id INT,
+ADD COLUMN  manager_id INT NULL,
 ADD CONSTRAINT fk_branch_manager
 FOREIGN KEY (manager_id)
 REFERENCES employees(employee_id)
@@ -47,7 +45,7 @@ ON DELETE SET NULL;
 -- ==============================
 -- PARTIES (Consignor / Consignee)
 -- ==============================
-CREATE TABLE parties (
+CREATE TABLE IF NOT EXISTS parties (
     party_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_id INT,
     party_name VARCHAR(255) NOT NULL UNIQUE,
@@ -55,7 +53,6 @@ CREATE TABLE parties (
     gst_no VARCHAR(20) NOT NULL,
     contact_person VARCHAR(150),
     contact_number VARCHAR(15),
-
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL
@@ -64,7 +61,7 @@ CREATE TABLE parties (
 -- ==============================
 -- VEHICLE SIZES (MASTER)
 -- ==============================
-CREATE TABLE vehicle_sizes (
+CREATE TABLE IF NOT EXISTS vehicle_sizes (
     size_id INT AUTO_INCREMENT PRIMARY KEY,
     size_name VARCHAR(50) UNIQUE NOT NULL
 );
@@ -72,13 +69,13 @@ CREATE TABLE vehicle_sizes (
 -- ==============================
 -- VEHICLES
 -- ==============================
-CREATE TABLE vehicles (
+CREATE TABLE IF NOT EXISTS vehicles (
     vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
     lorry_no VARCHAR(50) UNIQUE NOT NULL,
     size_id INT,
+    actual_weight DECIMAL(12,2),
     driver_name VARCHAR(150),
     driver_phone VARCHAR(15),
-
     FOREIGN KEY (size_id)
         REFERENCES vehicle_sizes(size_id)
         ON DELETE SET NULL
@@ -87,26 +84,22 @@ CREATE TABLE vehicles (
 -- ==============================
 -- PRODUCTS (MASTER)
 -- ==============================
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(255) UNIQUE NOT NULL
-    
 );
 
 -- ==============================
 -- PARTY - PRODUCTS (Optional Mapping)
 -- ==============================
-CREATE TABLE party_products (
+CREATE TABLE IF NOT EXISTS party_products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     party_id INT,
     product_id INT,
-
     UNIQUE (party_id, product_id),
-
     FOREIGN KEY (party_id)
         REFERENCES parties(party_id)
         ON DELETE CASCADE,
-
     FOREIGN KEY (product_id)
         REFERENCES products(product_id)
         ON DELETE CASCADE
@@ -115,18 +108,16 @@ CREATE TABLE party_products (
 -- ==============================
 -- RATE MASTER
 -- ==============================
-CREATE TABLE rate_master (
+CREATE TABLE IF NOT EXISTS rate_master (
     rate_id INT AUTO_INCREMENT PRIMARY KEY,
     party_id INT,
     source VARCHAR(150),
     destination VARCHAR(150),
     size_id INT,
     freight DECIMAL(12,2),
-
     FOREIGN KEY (party_id)
         REFERENCES parties(party_id)
         ON DELETE CASCADE,
-
     FOREIGN KEY (size_id)
         REFERENCES vehicle_sizes(size_id)
         ON DELETE SET NULL
@@ -135,43 +126,32 @@ CREATE TABLE rate_master (
 -- ==============================
 -- DOCKETS
 -- ==============================
-CREATE TABLE dockets (
+CREATE TABLE IF NOT EXISTS dockets (
     docket_no VARCHAR(50) PRIMARY KEY,
     branch_id INT,
     docket_date DATE,
-
-    consignor_id INT,
-    consignee_id INT,
-
-    vehicle_id INT,
-
     source VARCHAR(150),
     destination VARCHAR(150),
-    actual_weight DECIMAL(12,2),
-
+    vehicle_id INT,
+    charged_weight DECIMAL(12,2),
+    consignor_id INT,
+    consignee_id INT,
     payment_mode ENUM('CASH','NEFT','RTGS','CHEQUE','TO_PAY','PAID'),
-
     billing_branch_id INT,
     gstin_payable_by ENUM('CONSIGNOR','CONSIGNEE'),
-
     remarks TEXT,
-
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL,
-
     FOREIGN KEY (billing_branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL,
-
     FOREIGN KEY (consignor_id)
         REFERENCES parties(party_id)
         ON DELETE SET NULL,
-
     FOREIGN KEY (consignee_id)
         REFERENCES parties(party_id)
         ON DELETE SET NULL,
-
     FOREIGN KEY (vehicle_id)
         REFERENCES vehicles(vehicle_id)
         ON DELETE SET NULL
@@ -180,82 +160,55 @@ CREATE TABLE dockets (
 -- ==============================
 -- DOCKET ITEMS
 -- ==============================
-CREATE TABLE docket_items (
+CREATE TABLE IF NOT EXISTS docket_items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
     docket_id VARCHAR(50),
-    product_id INT,
+    product_name VARCHAR(255),
     total_packages INT,
     packaging_method VARCHAR(100),
     declared_value DECIMAL(14,2),
-    invoice_no VARCHAR(100),
-
-    FOREIGN KEY (docket_id)
-        REFERENCES dockets(docket_no)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY (product_id)
-        REFERENCES products(product_id)
-        ON DELETE RESTRICT
-);
-
--- ==============================
--- EWAY BILLS
--- ==============================
-CREATE TABLE eway_bills (
-    eway_id INT AUTO_INCREMENT PRIMARY KEY,
-    docket_id VARCHAR(50),
-    eway_bill_no VARCHAR(50),
-
     FOREIGN KEY (docket_id)
         REFERENCES dockets(docket_no)
         ON DELETE CASCADE
 );
 
 -- ==============================
--- COMPANY FREIGHT (INCOME)
+-- EWAY BILLS
 -- ==============================
-CREATE TABLE company_freight (
+CREATE TABLE IF NOT EXISTS eway_bills (
+    eway_id INT AUTO_INCREMENT PRIMARY KEY,
+    docket_id VARCHAR(50),
+    invoice_no VARCHAR(50),
+    eway_bill_no VARCHAR(50),
+    FOREIGN KEY (docket_id)
+        REFERENCES dockets(docket_no)
+        ON DELETE CASCADE
+);
+
+-- ==============================
+-- FREIGHT (INCOME)
+-- ==============================
+CREATE TABLE IF NOT EXISTS freight (
     id INT AUTO_INCREMENT PRIMARY KEY,
     docket_id VARCHAR(50),
     rate_id INT,
-
-    freight DECIMAL(14,2),
+    truck_freight DECIMAL(14,2),
+    company_freight DECIMAL(14,2),
     multipoint_pickup DECIMAL(14,2) DEFAULT 0,
     multipoint_delivery DECIMAL(14,2) DEFAULT 0,
     labour DECIMAL(14,2) DEFAULT 0,
+    holding DECIMAL(14,2) DEFAULT 0,
     docket_charge DECIMAL(14,2) DEFAULT 0,
     other_charges DECIMAL(14,2) DEFAULT 0,
     subtotal DECIMAL(14,2),
     other_state_tax DECIMAL(14,2) DEFAULT 0,
     gst DECIMAL(14,2) DEFAULT 0,
     grand_total DECIMAL(14,2),
-
     payment_status ENUM('PENDING','RECEIVED') DEFAULT 'PENDING',
-
     FOREIGN KEY (docket_id)
         REFERENCES dockets(docket_no)
         ON DELETE CASCADE,
-
     FOREIGN KEY (rate_id)
         REFERENCES rate_master(rate_id)
         ON DELETE SET NULL
-);
-
--- ==============================
--- DRIVER FREIGHT (EXPENSE)
--- ==============================
-CREATE TABLE driver_freight (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    docket_id VARCHAR(50),
-
-    freight DECIMAL(14,2),
-    multipoint_pickup DECIMAL(14,2) DEFAULT 0,
-    multipoint_delivery DECIMAL(14,2) DEFAULT 0,
-    labour DECIMAL(14,2) DEFAULT 0,
-    other_expense DECIMAL(14,2) DEFAULT 0,
-    total_expense DECIMAL(14,2),
-
-    FOREIGN KEY (docket_id)
-        REFERENCES dockets(docket_no)
-        ON DELETE CASCADE
 );

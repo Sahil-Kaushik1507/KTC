@@ -32,7 +32,6 @@ export const seedDatabase = async () => {
 
     /* ======================================
        3️⃣ ASSIGN MANAGER TO BRANCH
-       (Since we control seed data)
     ====================================== */
     await getPool().query(`
       UPDATE branches
@@ -53,10 +52,10 @@ export const seedDatabase = async () => {
        5️⃣ VEHICLES
     ====================================== */
     await getPool().query(`
-      INSERT INTO vehicles (lorry_no, size_id, driver_name, driver_phone)
+      INSERT INTO vehicles (lorry_no, size_id, driver_name, driver_phone, actual_weight)
       VALUES
-        ('MH12AB1234', 1, 'Mahesh Yadav', '9876500001'),
-        ('WB34CD5678', 2, 'Rakesh Singh', '9123400002')
+        ('MH12AB1234', 1, 'Mahesh Yadav', '9876500001', 5000),
+        ('WB34CD5678', 2, 'Rakesh Singh', '9123400002', 7000)
       ON DUPLICATE KEY UPDATE lorry_no = lorry_no;
     `);
 
@@ -105,6 +104,40 @@ export const seedDatabase = async () => {
         (1, 'Noida', 'Pune', 1, 12000),
         (2, 'Kolkata', 'Delhi', 2, 18000)
       ON DUPLICATE KEY UPDATE freight = VALUES(freight);
+    `);
+
+    /* ======================================
+       🔟 DOCKETS + ITEMS + EWAY + FREIGHT
+    ====================================== */
+    // Docket 1
+    await getPool().query(`
+      INSERT INTO dockets 
+        (docket_no, branch_id, docket_date, source, destination, vehicle_id, charged_weight, consignor_id, consignee_id, payment_mode, billing_branch_id, gstin_payable_by, remarks)
+      VALUES 
+        ('DKT001', 1, '2026-03-03', 'Noida', 'Pune', 1, 5200, 1, 2, 'CASH', 1, 'CONSIGNOR', 'Urgent delivery')
+      ON DUPLICATE KEY UPDATE remarks = VALUES(remarks);
+    `);
+
+    // Docket Items for DKT001
+    await getPool().query(`
+      INSERT IGNORE INTO docket_items (docket_id, product_name, total_packages, packaging_method, declared_value)
+      VALUES
+        ('DKT001', 'LED Lights', 100, 'Box', 50000),
+        ('DKT001', 'Fans', 50, 'Carton', 25000);
+    `);
+
+    // Eway Bill for DKT001
+    await getPool().query(`
+      INSERT IGNORE INTO eway_bills (docket_id, invoice_no, eway_bill_no)
+      VALUES
+        ('DKT001', 'INV1001', 'EWB1001');
+    `);
+
+    // Freight for DKT001
+    await getPool().query(`
+      INSERT IGNORE INTO freight (docket_id, rate_id, truck_freight, company_freight, multipoint_pickup, multipoint_delivery, labour, holding, docket_charge, other_charges, subtotal, gst, grand_total)
+      VALUES
+        ('DKT001', 1, 12000, 0, 0, 0, 500, 200, 100, 50, 12950, 1170, 14120);
     `);
 
     console.log("Seeding completed successfully!");

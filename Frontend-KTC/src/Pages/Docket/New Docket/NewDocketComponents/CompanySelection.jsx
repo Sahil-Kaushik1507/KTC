@@ -12,7 +12,7 @@ export default function CompanySelection() {
     try {
     
       const { data } = await api.get(
-        "/api/v1/docket/new/company",
+        "/api/v1/docket/new",
         {
           params: { companyName },
         },

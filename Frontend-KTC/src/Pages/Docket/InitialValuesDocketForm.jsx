@@ -111,3 +111,102 @@ const Docket = {
   GSTINPayableBy: "Consignor",
   Remarks: "Handle with care – fragile items.",
 };
+
+
+const initialValues = {
+  // -------------------
+  // Step 1: Docket Info
+  // -------------------
+  docket: {
+    branchId: '',          // FK → BRANCHES
+    docketDate: new Date(),// default today
+    docketNo:'',
+    
+    source: '',          
+    destination: '', 
+
+    billingBranchId: '',   // FK → BRANCHES (if different from branchId) 
+    PaymentMode:'',
+    remarks: '',
+  },
+
+  // -------------------
+  // Step 2: Vehicle
+  // -------------------
+  vehicle: {
+    id: '',               // FK → VEHICLES
+    lorryNo: '',
+    vehicleSize: '',
+    actualWeight:'',
+    chargedWeight: "",
+    driverName: '',
+    driverPhone: ''
+  },
+
+  // -------------------
+  // Step 3: Parties
+  // -------------------
+  consignor: {
+    id: '',               // FK → PARTIES (if existing)
+    name: '',             // only if adding new
+    address: '',
+    gst: '',
+    contactPerson: '',
+    contactNumber: '',
+  },
+  consignee: {
+    id: '',               // FK → PARTIES
+    name: '',
+    address: '',
+    gst: '',
+    contactPerson: '',
+    contactNumber: '',
+  },
+
+
+
+  // -------------------
+  // Step 4: Docket Items (Dynamic Array)
+  // -------------------
+  items: [
+    {
+      productName: '',
+      totalPackages: '',
+      packagingMethod: '',
+      declaredValue: ''
+    }
+  ],
+
+  // -------------------
+  // Step 5: Eway Bill
+  // -------------------
+  eway: {
+    invoiceNo: '',
+    ewayBillNo: ''
+  },
+
+  // -------------------
+  // Step 6: Charges / Freight
+  // -------------------
+  freight:{
+    truckFreight:0,
+    companyFreight:0, 
+    charges: { 
+      multipointPickup: 0,
+      multipointDelivery: 0,
+      labour: 0,
+      holding:0,
+      docketCharge: 0,
+      otherCharges: 0,
+    },
+    subtotal: 0,
+    taxes:{
+      gst: 0,
+      gstinPayableBy: '',    // e.g., 'Consignor' or 'Consignee'
+      otherStateTax: 0,
+    },
+     grandTotal: 0,
+  },
+
+
+};
