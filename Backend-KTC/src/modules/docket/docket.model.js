@@ -112,3 +112,21 @@ const docket = {
     Remarks: "Urgent Delivery"
   };
 */
+
+
+export const addDocketNew = async(newDocketObject)=>{
+  try {
+
+    console.log(newDocketObject.docket)
+    console.log(newDocketObject.vehicle)
+    console.log(newDocketObject.consignor)
+    console.log(newDocketObject.consignee)
+    console.log(newDocketObject.items)
+    console.log(newDocketObject.eway)
+    console.log(newDocketObject.freight)
+    
+  } catch (error) {
+    console.log(error)
+  }
+
+}

@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS branches (
 CREATE TABLE IF NOT EXISTS employees (
     employee_id INT AUTO_INCREMENT PRIMARY KEY,
     employee_name VARCHAR(150) NOT NULL,
-    phone_no VARCHAR(15),
-    email VARCHAR(150),
+    phone_no VARCHAR(15) UNIQUE,
+    email VARCHAR(150) UNIQUE,
     date_of_joining DATE,
     branch_id INT,
     salary DECIMAL(12,2),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS employees (
 -- Add manager_id to branches (after employees)
 -- ==============================
 ALTER TABLE branches
-ADD COLUMN  manager_id INT NULL,
+ADD COLUMN  manager_id INT NULL UNIQUE,
 ADD CONSTRAINT fk_branch_manager
 FOREIGN KEY (manager_id)
 REFERENCES employees(employee_id)

@@ -7,7 +7,7 @@ export const getConsignorDetails = async(ConsignorDetails)=>{
             throw new Error("Database connection pool is not initialized.");
         }
         const result = await connectionPool.query(
-            `SELECT * FROM ConsignorDetails;`,
+            `SELECT * FROM parties;`,
             ConsignorDetails
         )
 

@@ -1,0 +1,14 @@
+main app : http://localhost:8001/api/v1/
+
+
+Branch:
+    http://localhost:8001/api/v1/branch
+
+        /new --> Add New Branch (Post req)
+        /addManager --> Add Manager to the existing Branch (Post Req)
+        /viewAllBranches --> View All saved Branches(get req)
+        /viewBranch/:branch_id --> Get particular branch details by ID (get with parms)
+
+
+
+

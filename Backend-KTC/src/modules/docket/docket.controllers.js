@@ -1,7 +1,7 @@
 import asyncHandler from "../../middlewares/asyncHandler.js";
-import { addDocket } from "./docket.model.js";
+import { addDocket, addDocketNew } from "./docket.model.js";
 import { getConsignorDetails } from "../party/party.model.js";
-import { getBranchDetails } from "../branch/branch.model.js";
+// import { getBranchDetails } from "../branch/branch.model.js";
 
 const nextDocketNo = {
   compnayName: 0,
@@ -11,8 +11,10 @@ const nextDocketNo = {
 
 export const addNewDocket = asyncHandler(async (req, res) => {
   try {
-    // console.log();
-    const response = addDocket(Object.values(req.body));
+    // console.log(req.body);
+    // console.log("API HIT", req.method);
+    // const response = addDocket(Object.values(req.body));
+    const response = addDocketNew(req.body);
     res.send(response);
 
     if (response) {
@@ -25,7 +27,7 @@ export const addNewDocket = asyncHandler(async (req, res) => {
 
 export const sendNextDocketNo = asyncHandler(async (req, res) => {
   try {
-    // console.log(req.query);
+    console.log(req.query);
     const { companyName } = req.query;
     const response = nextDocketNo[companyName];
     const response1 = await getConsignorDetails();
@@ -52,38 +54,76 @@ export const viewDocket = asyncHandler(async (req, res) => {
 });
 
 const docket = {
-    DocketNo: 1,
-    Branch: "Main Branch",
-    Date: "2024-11-08", 
-    Source: "Delhi",
-    Destination: "Mumbai",
-    LorryNo: "MH-01-AB-1234",
-    Size: "Large",
-    ActualWeight: "1000 kg",
-    TruckFright: "1500 INR",
-    ConsignorName: "John Doe",
-    ConsignorAddress: "123 Main Street, Delhi",
-    ConsignorGST: "07AABCU9609H1Z7",
-    ConsigneeName: "Jane Smith",
-    ConsigneeAddress: "456 Market Road, Mumbai",
-    ConsigneeGST: "27AAACZ1234H1Z5",
-    Product: "Electronics",
-    TotalPackages: "50",
-    MethodOfPkg: "Cartons",
-    InvoiceNo: "INV123456",
-    DeclaredValue: "As Per Bill",
-    EwayBillNo: "1234567890",
-    ProvisionalAmount: "50000 INR",
-    GreenTax: "500 INR",
-    LabourCharges: "1000 INR",
-    HoldingCharges: "200 INR",
-    MultiPointPickUpCharges: "300 INR",
-    MultiPointDileveryCharges: "400 INR",
-    DocketCharges: "50 INR",
-    OtherCharges: "100 INR",
-    PaymentMode: "Online",
-    TotalAmount: "52500 INR",
-    GSTINPayableBy: "Consignor",
-    BillingBranch: "Delhi Branch",
-    Remarks: "Urgent Delivery"
-};
+  "docket": {
+    "branchId": "1",
+    "docketDate": "2026-03-03",
+    "docketNo": "HDW-2026-00045",
+    "source": "Haridwar",
+    "destination": "Delhi",
+    "billingBranchId": "2",
+    "PaymentMode": "To Pay",
+    "remarks": "Handle with care. Fragile material."
+  },
+  "vehicle": {
+    "id": "5",
+    "lorryNo": "HR38AB1234",
+    "vehicleSize": "32 FT",
+    "actualWeight": "8500",
+    "chargedWeight": "9000",
+    "driverName": "Rajesh Kumar",
+    "driverPhone": "9876543210"
+  },
+  "consignor": {
+    "id": "12",
+    "name": "Shiv Steel Industries",
+    "address": "SIDCUL Industrial Area, Haridwar, Uttarakhand",
+    "gst": "05ABCDE1234F1Z5",
+    "contactPerson": "Amit Sharma",
+    "contactNumber": "9811122233"
+  },
+  "consignee": {
+    "id": "18",
+    "name": "Metro Hardware Pvt Ltd",
+    "address": "Bawana Industrial Area, Delhi",
+    "gst": "07PQRSX5678L1Z2",
+    "contactPerson": "Sandeep Verma",
+    "contactNumber": "9898989898"
+  },
+  "items": [
+    {
+      "productName": "TMT Steel Bars",
+      "totalPackages": "120",
+      "packagingMethod": "Bundles",
+      "declaredValue": "450000"
+    },
+    {
+      "productName": "Iron Rods",
+      "totalPackages": "80",
+      "packagingMethod": "Loose",
+      "declaredValue": "250000"
+    }
+  ],
+  "eway": {
+    "invoiceNo": "INV-4587/2026",
+    "ewayBillNo": "311009876543"
+  },
+  "freight": {
+    "truckFreight": 28000,
+    "companyFreight": 32000,
+    "charges": {
+      "multipointPickup": 2000,
+      "multipointDelivery": 1500,
+      "labour": 3000,
+      "holding": 1000,
+      "docketCharge": 500,
+      "otherCharges": 700
+    },
+    "subtotal": 40700,
+    "taxes": {
+      "gst": 18,
+      "gstinPayableBy": "Consignor",
+      "otherStateTax": 0
+    },
+    "grandTotal": 48026
+  }
+}

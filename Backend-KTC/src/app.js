@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import errorHandler  from './middlewares/errorHandler.js';
 
 export const app = express();
 
@@ -10,14 +11,12 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 app.use(cors())
+app.use(errorHandler)
 
     
-// import routes
-import docketRouter from './modules/docket/docket.routes.js';
+// App Routing
+import appRouter from './appRouter.js'
+app.use('/api/v1',appRouter);
 
-
-
-//route decleration 
-app.use('/api/v1/docket',docketRouter);
 
 
