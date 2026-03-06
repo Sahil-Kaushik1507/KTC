@@ -16,18 +16,18 @@ export const seedDatabase = async () => {
     `);
 
     /* ======================================
-       2️⃣ EMPLOYEES
+       2️⃣ USERS  pass--> Password@123
     ====================================== */
     await getPool().query(`
-      INSERT INTO employees 
-        (employee_name, phone_no, email, date_of_joining, branch_id, salary, role)
-      VALUES
-        ('Rahul Sharma', '9876543210', 'rahul@ktc.com', '2024-01-01', 1, 75000, 'ADMIN'),
-        ('Amit Verma', '9123456780', 'amit@ktc.com', '2024-02-15', 1, 55000, 'MANAGER'),
-        ('Suresh Gupta', '9988776655', 'suresh@ktc.com', '2024-03-01', 2, 45000, 'ACCOUNTANT'),
-        ('Ramesh Yadav', '9012345678', 'ramesh@ktc.com', '2024-04-01', 2, 28000, 'OPERATOR'),
-        ('Helper One', '9000000000', 'helper@ktc.com', '2024-05-01', 1, 18000, 'HELPER')
-      ON DUPLICATE KEY UPDATE email = email;
+      INSERT INTO users 
+(user_name, phone_no, email, password_hash, date_of_joining, branch_id, salary, role)
+VALUES
+('Rahul Sharma', '9876543210', 'rahul@ktc.com', '$2b$10$gNh7owmMrRi2hKg/xyjHaejdf/X4QKU/XEo545.DatoauKsgVJlW6', '2024-01-01', 1, 75000, 'ADMIN'),
+('Amit Verma', '9123456780', 'amit@ktc.com', '$2b$10$gNh7owmMrRi2hKg/xyjHaejdf/X4QKU/XEo545.DatoauKsgVJlW6', '2024-02-15', 1, 55000, 'MANAGER'),
+('Suresh Gupta', '9988776655', 'suresh@ktc.com', '$2b$10$gNh7owmMrRi2hKg/xyjHaejdf/X4QKU/XEo545.DatoauKsgVJlW6', '2024-03-01', 2, 45000, 'ACCOUNTANT'),
+('Ramesh Yadav', '9012345678', 'ramesh@ktc.com', '$2b$10$gNh7owmMrRi2hKg/xyjHaejdf/X4QKU/XEo545.DatoauKsgVJlW6', '2024-04-01', 2, 28000, 'OPERATOR'),
+('Helper One', '9000000000', 'helper@ktc.com', '$2b$10$gNh7owmMrRi2hKg/xyjHaejdf/X4QKU/XEo545.DatoauKsgVJlW6', '2024-05-01', 1, 18000, 'HELPER')
+ON DUPLICATE KEY UPDATE email = email;
     `);
 
     /* ======================================

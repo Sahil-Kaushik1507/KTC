@@ -15,31 +15,34 @@ CREATE TABLE IF NOT EXISTS branches (
 );
 
 -- ==============================
--- EMPLOYEES
+-- userS
 -- ==============================
-CREATE TABLE IF NOT EXISTS employees (
-    employee_id INT AUTO_INCREMENT PRIMARY KEY,
-    employee_name VARCHAR(150) NOT NULL,
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(150) NOT NULL,
     phone_no VARCHAR(15) UNIQUE,
-    email VARCHAR(150) UNIQUE,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     date_of_joining DATE,
     branch_id INT,
     salary DECIMAL(12,2),
     date_of_leaving DATE,
     role ENUM('MANAGER','ACCOUNTANT','OPERATOR','ADMIN','HELPER') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL
 );
 
 -- ==============================
--- Add manager_id to branches (after employees)
+-- Add manager_id to branches (after users)
 -- ==============================
 ALTER TABLE branches
 ADD COLUMN  manager_id INT NULL UNIQUE,
 ADD CONSTRAINT fk_branch_manager
 FOREIGN KEY (manager_id)
-REFERENCES employees(employee_id)
+REFERENCES users(user_id)
 ON DELETE SET NULL;
 
 -- ==============================
@@ -48,11 +51,12 @@ ON DELETE SET NULL;
 CREATE TABLE IF NOT EXISTS parties (
     party_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_id INT,
-    party_name VARCHAR(255) NOT NULL UNIQUE,
+    party_name VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
-    gst_no VARCHAR(20) NOT NULL,
+    gst_no VARCHAR(20) NOT NULL UNIQUE,
     contact_person VARCHAR(150),
     contact_number VARCHAR(15),
+    UNIQUE (party_name, branch_id),
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL

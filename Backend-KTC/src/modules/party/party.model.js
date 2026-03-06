@@ -1,72 +1,61 @@
 import { getPool } from "../../config/db.js";
+import { AppError } from "../../utils/AppError.js";
 
-export const getConsignorDetails = async(ConsignorDetails)=>{
-    try{
+
+//Sample Data
+// {
+//   "user_name": "Dheeraj Verma",
+//   "phone_no": "8123453470",
+//   "email": "dheerj.v@ktc.com",
+//   "date_of_joining": "2025-01-10",
+//   "branch_id": 1,
+//   "salary": 28000.00,
+//   "role": "ACCOUNTANT"
+// }
+
+export const addParty = async (partyData) => {
+
+    try {
         const connectionPool = getPool();
-        if(!connectionPool){
-            throw new Error("Database connection pool is not initialized.");
+        if (!connectionPool) {
+            throw new AppError("Database connection not initialized.", 500);
         }
-        const result = await connectionPool.query(
-            `SELECT * FROM parties;`,
-            ConsignorDetails
-        )
+        const { branch_id, party_name, address, gst_no, contact_person, contact_number } = partyData;
 
-        return result;
-        
+        const [result] = await connectionPool.query(
+            `INSERT INTO PARTIES 
+                (branch_id, party_name, address, gst_no, contact_person, contact_number) 
+                VALUES (?,?,?,?,?,?)`,
+            [branch_id, party_name, address, gst_no, contact_person, contact_number])
 
+        // console.log(result)
+        return {
+            message: `Party added successfully`,
+            partyId: result.insertId
+        };
 
-    }catch (error) {
-        console.log(`Error in getting Details: ${error}`);
-      }
-}
+    } catch (error) {
 
+        if (error.code === "ER_DUP_ENTRY") {
 
-/* sample consigneer object
-{
-  "ConsigneeName": "ABC Logistics",
-  "Address": "123 Main Street, Mumbai, India",
-  "GST": "27AAACP1234A1Z5",
-  "ContactPerson": "Rahul Sharma",
-  "ContactNumber": 9876543210,
-  "Branch": "Mumbai"
-}
-*/
-
+            if (error.sqlMessage.includes("party_name")) {
+                throw new AppError("Party already exists in this branch", 409);
+            }
+            if (error.sqlMessage.includes("gst_no")) {
+                throw new AppError("GST number already exists", 409);
+            }
 
 
-
-export const addConsignorDetails = async(newConsignorDetails)=>{
-    try{
-        const connectionPool = getPool();
-        if(!connectionPool){
-            throw new Error("Database connection pool is not initialized.");
+            throw new AppError("Duplicate entry found", 409);
         }
-        const result = await connectionPool.query(
-            `INSERT INTO ConsignorDetails (ConsigneeName,Address,GST,ContactPerson,ContactNumber,Branch) 
-            VALUES (?,?,?,?,?,?);`,
-            newConsignorDetails
-        )
 
-        if(result[0].affectedRows === 1){
-            return `Consignor: ${newConsignorDetails[0]} Added Succesfully!!`;
+        if (error.code === "ER_NO_REFERENCED_ROW_2") {
+            throw new AppError("Branch_id Not Found", 404)
         }
-        return "Failed :Row Affected is not one";
-        
 
+        console.error("Unexpected DB Error:", error);
+        throw new AppError("Database error while adding new party.", 500);
 
-    }catch (error) {
-        console.log(`Docket Not Added: ${error}`);
-      }
+    }
+
 }
-
-
-/* sample docket object
-{
-  "ConsigneeName": "ABC Logistics",
-  "Address": "123 Main Street, Mumbai, India",
-  "GST": "27AAACP1234A1Z5",
-  "ContactPerson": "Rahul Sharma",
-  "ContactNumber": 9876543210,
-  "Branch": "Mumbai"
-}
-*/

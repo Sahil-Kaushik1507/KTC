@@ -1,6 +1,6 @@
 import asyncHandler from "../../middlewares/asyncHandler.js";
 import { addDocket, addDocketNew } from "./docket.model.js";
-import { getConsignorDetails } from "../party/party.model.js";
+// import { getConsignorDetails } from "../party/party.model.js";
 // import { getBranchDetails } from "../branch/branch.model.js";
 
 const nextDocketNo = {
