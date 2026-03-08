@@ -1,12 +1,13 @@
 import { getPool } from "../../config/db.js";
 import { AppError } from "../../utils/AppError.js";
+import { buildInsertQuery } from "../../utils/queryGenrator.js";
 
 
 // sampledata
 // {
 //   "branch_name": "Haridwar",
+//    "branch_code": "HDR"
 //   "address": "SIDCUL Industrial Area, Haridwar, Uttarakhand - 249403",
-//   "next_docket": 46,
 //   "manager_id":"30 (Optional)" 
 // }
 export const addBranch = async (newBranchData) => {
@@ -18,26 +19,9 @@ export const addBranch = async (newBranchData) => {
             throw new AppError("Database connection not initialized.", 500);
         }
 
-        const { branch_name, address, next_docket, manager_id } = newBranchData;
-
-        let result;
-
-        if (manager_id) {
-            [result] = await connectionPool.query(
-                `INSERT INTO branches 
-                 (branch_name, address, next_docket, manager_id) 
-                 VALUES (?,?,?,?)`,
-                [branch_name, address, next_docket, manager_id]
-            );
-        } else {
-            [result] = await connectionPool.query(
-                `INSERT INTO branches 
-                 (branch_name, address, next_docket) 
-                 VALUES (?,?,?)`,
-                [branch_name, address, next_docket]
-            );
-        }
-
+        const { query, values } = buildInsertQuery("BRANCHES",newBranchData)
+       const [result]= await connectionPool.query(query, values);
+      
         return {
             message: `Branch added successfully`,
             branchId: result.insertId
@@ -54,6 +38,10 @@ export const addBranch = async (newBranchData) => {
 
             if (error.sqlMessage.includes("manager_id")) {
                 throw new AppError("This manager is already assigned to another branch.", 409);
+            }
+
+            if (error.sqlMessage.includes("branch_code")) {
+                throw new AppError("This Branch Code already used for some other branch", 409);
             }
 
             throw new AppError("Duplicate entry found.", 409);
@@ -145,35 +133,62 @@ export const addBranchManager = async (managerData) => {
 };
 
 
-export const viewAllBranches = async()=>{
+export const viewAllBranches = async () => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
             throw new AppError("Database connection not initialized.", 500);
         }
-        const [result]= await connectionPool.query(
-                `SELECT * FROM BRANCHES`
+        const [result] = await connectionPool.query(
+            `SELECT * FROM BRANCHES`
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `No Branch found`,
+                404
             );
-            console.log(result)
-        return result ;
+        }
+        console.log(result)
+        return result;
     } catch (error) {
-        
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("DB Error:", error);
+        throw new AppError("Database error while geting party details.", 500);
+
     }
 }
 
 // http://localhost:8001/api/v1/branch/viewBranch/:id
-export const viewBranchDetails = async(branchId)=>{
+export const viewBranchDetails = async (branchId) => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
             throw new AppError("Database connection not initialized.", 500);
         }
-        const [result]= await connectionPool.query(
-                `SELECT * FROM BRANCHES WHERE branch_id = ?`, [branchId]
+        const [result] = await connectionPool.query(
+            `SELECT * FROM BRANCHES WHERE branch_id = ?`, [branchId]
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `Branch with id '${branchId}' not found`,
+                404
             );
-            console.log(result)
-        return result ;
+        }
+        console.log(result)
+        return result;
     } catch (error) {
-        
+
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("DB Error:", error);
+        throw new AppError("Database error while geting party details.", 500);
+
     }
 }

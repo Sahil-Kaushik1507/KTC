@@ -1,5 +1,5 @@
 import asyncHandler from "../../middlewares/asyncHandler.js";
-import {addUser,loginUser,updateUser,changeUserPassword,deactivateUserReq} from './auth.model.js'
+import {addUser,loginUser,updateUser,changeUserPassword,deactivateUserReq} from './auth.models.js'
 
 export const registerNewUser = asyncHandler(async(req,res)=>{
     const result = await addUser(req.body)

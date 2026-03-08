@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import {registerNewUser, userLogin, updateUserDetails, changePassword, deactivateUser} from './auth.controller.js'
+import {registerNewUser, userLogin, updateUserDetails, changePassword, deactivateUser} from './auth.controllers.js'
 import { registerValidator,loginValidator,updateUserValidator,newPasswordValidator } from './auth.validator.js';
 import { validateRequest } from '../../middlewares/validateRequest.js';
 import { authentication } from '../../middlewares/authentication.js';
@@ -23,6 +23,6 @@ router.route('/changePassword')
     .patch(authentication,newPasswordValidator,validateRequest,changePassword)
 
 router.route('/:user_id/deactivateUser')
-    .patch(authentication,authorization("ADMIN","MANAGER"),deactivateUser)
+    .patch(authentication,authorization("ADMIN","MANAGER","OPERATOR","ACCOUNTANT"),deactivateUser)
 
 export default router;

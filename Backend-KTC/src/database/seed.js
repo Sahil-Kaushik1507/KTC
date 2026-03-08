@@ -8,10 +8,10 @@ export const seedDatabase = async () => {
        1️⃣ BRANCHES (No manager initially)
     ====================================== */
     await getPool().query(`
-      INSERT INTO branches (branch_name, address)
+      INSERT INTO branches (branch_name,branch_code, address)
       VALUES
-        ('Pune Branch', 'Pune Industrial Area'),
-        ('Kolkata Branch', 'Kolkata Transport Nagar')
+        ('Pune Branch','PUN', 'Pune Industrial Area'),
+        ('Kolkata Branch','KOL', 'Kolkata Transport Nagar')
       ON DUPLICATE KEY UPDATE branch_name = branch_name;
     `);
 
@@ -39,6 +39,17 @@ ON DUPLICATE KEY UPDATE email = email;
       WHERE branch_name = 'Pune Branch';
     `);
 
+    
+    /* ======================================
+       4️⃣ SEQUENCE (MASTER)
+    ====================================== */
+    await getPool().query(`
+      INSERT INTO sequence_master (sequence_name,next_number)
+      VALUES ('PTY',1), ('DOCKET_KOL',1)
+      ON DUPLICATE KEY UPDATE sequence_name = sequence_name;
+    `);
+
+
     /* ======================================
        4️⃣ VEHICLE SIZES (MASTER)
     ====================================== */
@@ -59,28 +70,16 @@ ON DUPLICATE KEY UPDATE email = email;
       ON DUPLICATE KEY UPDATE lorry_no = lorry_no;
     `);
 
-    /* ======================================
-       6️⃣ PRODUCTS (MASTER)
-    ====================================== */
-    await getPool().query(`
-      INSERT INTO products (product_name)
-      VALUES
-        ('LED Lights'),
-        ('Fans'),
-        ('Mattress'),
-        ('Raw Material')
-      ON DUPLICATE KEY UPDATE product_name = product_name;
-    `);
 
     /* ======================================
        7️⃣ PARTIES
     ====================================== */
     await getPool().query(`
       INSERT INTO parties 
-        (branch_id, party_name, address, gst_no, contact_person, contact_number)
+        (branch_id, party_name, party_code, address, gst_no, contact_person, contact_number)
       VALUES
-        (1, 'Halonix Pvt Ltd', 'Noida Industrial Area', '09AAACH1234F1Z2', 'Mr. Arjun', '9988001122'),
-        (2, 'Varamuti Industries', 'Kolkata Warehouse Zone', '19AAACV5678K1Z5', 'Mr. Deepak', '8877003344')
+        (1, 'Halonix Pvt Ltd','PTY_KOL_0201', 'Noida Industrial Area', '09AAACH1234F1Z2', 'Mr. Arjun', '9988001122'),
+        (2, 'Varamuti Industries','PTY_PUN_0301', 'Kolkata Warehouse Zone', '19AAACV5678K1Z5', 'Mr. Deepak', '8877003344')
       ON DUPLICATE KEY UPDATE party_name = party_name;
     `);
 
@@ -88,11 +87,16 @@ ON DUPLICATE KEY UPDATE email = email;
        8️⃣ PARTY - PRODUCTS (Regular Items)
     ====================================== */
     await getPool().query(`
-      INSERT IGNORE INTO party_products (party_id, product_id)
-      VALUES
-        (1, 1),  -- Halonix → LED Lights
-        (1, 2),  -- Halonix → Fans
-        (2, 3);  -- Varamuti → Mattress
+     INSERT INTO party_products (party_id, product_name, priority)
+VALUES
+(1, 'Steel Rods', 1),
+(1, 'Iron Sheets', 2),
+(1, 'Copper Wires', 3),
+(2, 'Cement Bags', 1),
+(2, 'Concrete Blocks', 2),
+(1, 'Plastic Granules', 1),
+(2, 'PVC Pipes', 2),
+(1, 'Water Tanks', 3);
     `);
 
     /* ======================================

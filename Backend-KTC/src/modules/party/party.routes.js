@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {addNewParty} from './party.controller.js'
+import {addNewParty, getPartyDetails,getAllPartyDetails} from './party.controller.js'
 import { newPartyValidator } from './party.validator.js';
 import { validateRequest } from '../../middlewares/validateRequest.js';
 import { authentication } from '../../middlewares/authentication.js';
@@ -9,7 +9,13 @@ const router = Router();
 
 
 router.route('/new')
-    .post(authentication,authorization("ADMIN","MANAGER"),newPartyValidator,validateRequest,addNewParty)
+    .post(authentication,authorization("ADMIN","MANAGER","OPERATOR"),newPartyValidator,validateRequest,addNewParty)
 
+
+router.route('/get/:party_code')
+    .get(getPartyDetails)
+    
+router.route('/get')
+    .get(getAllPartyDetails)
 
 export default router;

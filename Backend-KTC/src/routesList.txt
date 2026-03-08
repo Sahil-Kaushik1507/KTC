@@ -19,8 +19,16 @@ Authentication:
         /changePassword --> change password (Patch req)
         /:user_id/deactivateUser --> Deactivate User (patch with Parms)
 
---> sequence table
-    --> tranction utility
-    --> lock branch based
-    
--->dynamic query genrate utility
+Parties:
+    http://localhost:8001/api/v1/parties
+        /new --> Add new Party (Postr Req)
+        /get/:party_code Get Party Details (get with Params)
+        ./get get all parties details (get req)
+
+sequence
+    http://localhost:8001/api/v1/sequence
+        /addNewSequence --> Add new Sequence (post req)
+        getNextNumber --> get sequence next number (patch req) 
+
+
+--> template based data entry for repedted entry

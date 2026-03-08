@@ -2,12 +2,15 @@ import { body } from "express-validator";
 
 export const newPartyValidator = [
 
-    body("branch_id")
+
+    body("branch_code")
+        .trim()
         .notEmpty()
-        .withMessage("Branch ID is required")
-        .isInt({ min: 1 })
-        .withMessage("Branch ID must be a positive integer")
-        .toInt(),
+        .withMessage("Branch Code is required")
+        .toUpperCase()
+        .matches(/^[A-Z]{3}$/)
+        .withMessage("Branch Code must contain exactly 3 uppercase letters"),
+
 
     body("party_name")
         .trim()
@@ -15,6 +18,7 @@ export const newPartyValidator = [
         .withMessage("Party name is required")
         .isLength({ min: 2, max: 150 })
         .withMessage("Party name must be between 2 and 150 characters"),
+
 
     body("address")
         .trim()

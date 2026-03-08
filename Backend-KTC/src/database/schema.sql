@@ -10,8 +10,8 @@
 CREATE TABLE IF NOT EXISTS branches (
     branch_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_name VARCHAR(150) NOT NULL UNIQUE,
-    address TEXT,
-    next_docket INT 
+    branch_code VARCHAR(3) NOT NULL UNIQUE,
+    address TEXT
 );
 
 -- ==============================
@@ -51,7 +51,8 @@ ON DELETE SET NULL;
 CREATE TABLE IF NOT EXISTS parties (
     party_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_id INT,
-    party_name VARCHAR(255) NOT NULL,
+    party_name VARCHAR(255) NOT NULL ,
+    party_code VARCHAR(15) NOT NULL UNIQUE,
     address TEXT NOT NULL,
     gst_no VARCHAR(20) NOT NULL UNIQUE,
     contact_person VARCHAR(150),
@@ -61,6 +62,29 @@ CREATE TABLE IF NOT EXISTS parties (
         REFERENCES branches(branch_id)
         ON DELETE SET NULL
 );
+
+-- ==============================
+-- SEQUENCE (Master)
+-- ==============================
+CREATE TABLE sequence_master (
+    sequence_name VARCHAR(50) PRIMARY KEY,
+    next_number INT NOT NULL
+);
+
+
+-- ==============================
+-- PRODUCTS (MASTER)
+-- ==============================
+CREATE TABLE party_products (
+    party_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    priority INT DEFAULT 0,
+    PRIMARY KEY (party_id, product_name),
+    FOREIGN KEY (party_id)
+        REFERENCES parties(party_id)
+        ON DELETE CASCADE
+);
+
 
 -- ==============================
 -- VEHICLE SIZES (MASTER)
@@ -84,31 +108,6 @@ CREATE TABLE IF NOT EXISTS vehicles (
         REFERENCES vehicle_sizes(size_id)
         ON DELETE SET NULL
 );
-
--- ==============================
--- PRODUCTS (MASTER)
--- ==============================
-CREATE TABLE IF NOT EXISTS products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_name VARCHAR(255) UNIQUE NOT NULL
-);
-
--- ==============================
--- PARTY - PRODUCTS (Optional Mapping)
--- ==============================
-CREATE TABLE IF NOT EXISTS party_products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    party_id INT,
-    product_id INT,
-    UNIQUE (party_id, product_id),
-    FOREIGN KEY (party_id)
-        REFERENCES parties(party_id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (product_id)
-        REFERENCES products(product_id)
-        ON DELETE CASCADE
-);
-
 -- ==============================
 -- RATE MASTER
 -- ==============================

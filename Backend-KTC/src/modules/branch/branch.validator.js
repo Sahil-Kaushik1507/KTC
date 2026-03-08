@@ -1,4 +1,4 @@
-import { body,param } from "express-validator";
+import { body, param } from "express-validator";
 
 export const branchValidator = [
 
@@ -14,14 +14,15 @@ export const branchValidator = [
         .isString()
         .withMessage("Address must be a string"),
 
-    body("next_docket")
+    body("branch_code")
+        .trim()
         .notEmpty()
-        .withMessage("Next docket is required")
-        .isInt({ min: 1 })
-        .withMessage("Next docket must be a positive integer")
-        .toInt(),
+        .withMessage("Branch Code is required")
+        .toUpperCase()
+        .matches(/^[A-Z]{3}$/)
+        .withMessage("Branch Code must contain exactly 3 uppercase letters"),
 
-    
+
     body("manager_id")
         .optional()
         .isInt({ min: 1 })
