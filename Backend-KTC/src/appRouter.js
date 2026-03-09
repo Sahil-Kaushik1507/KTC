@@ -5,6 +5,7 @@ import authRouter from "./modules/authentication/auth.routes.js"
 import partyRouter from "./modules/party/party.routes.js"
 import sequenceRouter from "./modules/sequenceManager/sequenceManager.routes.js"
 import partyProductsRouter from "./modules/party_products/products.routes.js"
+import vehicleSizeRouter from "./modules/vehicle_size/vehicle_size.router.js"
 
 const router = Router()
 
@@ -14,5 +15,6 @@ router.use("/auth", authRouter)
 router.use("/party", partyRouter)
 router.use("/sequence", sequenceRouter)
 router.use("/party-products", partyProductsRouter)
+router.use("/vehicle-size", vehicleSizeRouter)
 
 export default router
