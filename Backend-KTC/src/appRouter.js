@@ -6,6 +6,7 @@ import partyRouter from "./modules/party/party.routes.js"
 import sequenceRouter from "./modules/sequenceManager/sequenceManager.routes.js"
 import partyProductsRouter from "./modules/party_products/products.routes.js"
 import vehicleSizeRouter from "./modules/vehicle_size/vehicle_size.router.js"
+import vehicleRouter from "./modules/vehicle/vehicle.router.js"
 
 const router = Router()
 
@@ -16,5 +17,6 @@ router.use("/party", partyRouter)
 router.use("/sequence", sequenceRouter)
 router.use("/party-products", partyProductsRouter)
 router.use("/vehicle-size", vehicleSizeRouter)
+router.use("/vehicle", vehicleRouter)
 
 export default router
