@@ -1,5 +1,5 @@
 import asyncHandler from "../../middlewares/asyncHandler.js"
-import { addBranch,addBranchManager, viewAllBranches,viewBranchDetails } from "./branch.models.js"
+import { addBranch,addBranchManager, viewBranches,viewBranchDetails } from "./branch.models.js"
 
 
 export const addNewBranch = asyncHandler(async (req, res) => {
@@ -25,9 +25,9 @@ export const addManager = asyncHandler(async(req,res)=>{
 
 
 
-export const viewBranches = asyncHandler(async (req, res) => {
+export const viewAllBranches = asyncHandler(async (req, res) => {
 
-    const branches = await viewAllBranches();
+    const branches = await viewBranches();
 
     res.status(200).json({
         success: true,

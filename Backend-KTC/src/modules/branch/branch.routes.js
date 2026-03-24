@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {addNewBranch, addManager,viewBranches,viewBranch} from "./branch.controllers.js"
+import {addNewBranch, addManager,viewAllBranches,viewBranch} from "./branch.controllers.js"
 import  {branchManagerValidator, branchValidator, viewBranchValidator} from "./branch.validator.js"
 import { validateRequest } from "../../middlewares/validateRequest.js";
 
@@ -15,7 +15,7 @@ router.route('/addManager')
     .post(branchManagerValidator,validateRequest, addManager)
 
 router.route('/viewAllBranches')
-    .get(viewBranches)
+    .get(viewAllBranches)
     .post()
 
 router.route('/viewBranch/:branch_id')

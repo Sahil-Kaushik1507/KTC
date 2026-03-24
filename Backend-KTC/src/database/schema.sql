@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS rate_master (
     destination VARCHAR(150),
     size_id INT,
     freight DECIMAL(12,2),
+    UNIQUE(party_id,source,destination,size_id),
     FOREIGN KEY (party_id)
         REFERENCES parties(party_id)
         ON DELETE CASCADE,

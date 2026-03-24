@@ -133,7 +133,7 @@ export const addBranchManager = async (managerData) => {
 };
 
 
-export const viewAllBranches = async () => {
+export const viewBranches = async () => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {

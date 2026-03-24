@@ -1,132 +1,136 @@
-import {getPool} from '../../config/db.js'
-
-// get all dockets in the table
-export const getAllDockets = async () => {
-    try {
-        const connectionPool = getPool();
-        if (!connectionPool) {
-            throw new Error('Database connection pool is not initialized.');
-        }
-        const [allDockets] = await connectionPool.query("SELECT * FROM DOCKETS");
-        return allDockets;
-    } catch (error) {
-        console.error('Error fetching dockets:', error);
-        throw error;
-    }
-
-};
+import { getPool } from "../../config/db.js";
+import { AppError } from "../../utils/AppError.js";
+import { buildInsertQuery } from "../../utils/queryGenrator.js"
 
 
-//get single docket with its docket number
-export const getDocket = async (DocketNo) => {
-    try {
-        const connectionPool = getPool();
-        if (!connectionPool) {
-            throw new Error('Database connection pool is not initialized.');
-        }
-        const [Docket] = await connectionPool.query(`SELECT * FROM DOCKETS WHERE DocketNo=?`,[DocketNo]);
-        if(Docket.length===0){
-            return`Docket Number:${DocketNo} does not exist.`
-        }
-        return Docket;
-    } catch (error) {
-        console.error('Error fetching dockets:', error);
-        throw error;
-    }
+// sampledata
+// {
+//   "docket_no": "HDW-2026-00045",
+//   "branch_id": 1,
+//   "docket_date": "2026-03-24",
+//   "source": "Haridwar",
+//   "destination": "Delhi",
+//   "vehicle_id": 5,
+//   "charged_weight": 9000.50,
+//   "consignor_id": 12,
+//   "consignee_id": 18,
+//   "payment_mode": "TO_PAY",
+//   "billing_branch_id": 2,
+//   "gstin_payable_by": "CONSIGNEE",
+//   "remarks": "Handle with care. Fragile goods."
+// }
 
-};
-
-
-
-
-//Add a docket (newDocketData--> array of 34 )
 export const addDocket = async (newDocketData) => {
+
   try {
+
     const connectionPool = getPool();
     if (!connectionPool) {
-      throw new Error("Database connection pool is not initialized.");
+      throw new AppError("Database connection not initialized.", 500);
     }
-    const result = await connectionPool.query(
-      `  INSERT INTO Docket (
-      DocketNo, Branch, Date, Source, Destination, TruckNo, Size, ActualWeight,
-      TruckFright, ConsignorName, ConsignorAddress, ConsignorGST, ConsigneeName,
-      ConsigneeAddress, ConsigneeGST, Product, TotalPackages, MethodOfPkg,
-      InvoiceNo, DeclaredValue, EwayBillNo, ProvisionalAmount, GreenTax,
-      LabourCharges, HoldingCharges, MultiPointPickUpCharges,
-      MultiPointDileveryCharges, DocketCharges, OtherCharges, PaymentMode,
-      TotalAmount, GSTINPayableBy, BillingBranch, Remarks
-      ) VALUES 
-            (
-              ?,?,STR_TO_DATE(?, '%d-%m-%Y'),?,?,?,?,?,?,?,
-              ?,?,?,?,?,?,?,?,?,?,
-              ?,?,?,?,?,?,?,?,?,?,
-              ?,?,?,?
-            );`,
-      newDocketData,
-    );
-    if (result[0].affectedRows === 1) {
-      console.log(`Docket No: ${newDocketData[0]} Added Succesfully!!`);
-      return `Docket No: ${newDocketData[0]} Added Succesfully!!`;
+
+    const { query, values } = buildInsertQuery("dockets", newDocketData);
+
+    const [result] = await connectionPool.query(query, values);
+
+
+    if (result.affectedRows == 1) {
+      return {
+        message: `Docket added successfully`,
+        docketNo: newDocketData.docket_no,
+      };
+
     }
-    return "Failed :Row Affected is not one";
+
+
+
   } catch (error) {
-    console.log(`Docket Not Added: ${error}`);
+
+    if (error instanceof AppError) {
+      throw error
+    }
+
+    if (error.code === "ER_DUP_ENTRY") {
+      throw new AppError("Docket No. already exists.", 409);
+    }
+
+
+    // Foreign key error
+    if (error.code === "ER_NO_REFERENCED_ROW_2") {
+      if (error.sqlMessage.includes("branch_id")) {
+        throw new AppError("Branch ID Not Found", 400);
+      }
+
+      if (error.sqlMessage.includes("party_id")) {
+        throw new AppError("Party ID Not Found", 400);
+      }
+      if (error.sqlMessage.includes("vehicle_id")) {
+        throw new AppError("Vehicle ID Not Found", 400);
+      }
+
+
+    }
+
+    console.error("Unexpected DB Error:", error);
+    throw new AppError("Database error while adding Docket.", 500);
   }
 };
 
-/* sample docket object
-const docket = {
-    DocketNo: 1,
-    Branch: "Main Branch",
-    Date: "2024-11-08", 
-    Source: "Delhi",
-    Destination: "Mumbai",
-    TruckNo: "MH-01-AB-1234",
-    Size: "Large",
-    ActualWeight: "1000 kg",
-    TruckFright: "1500 INR",
-    ConsignorName: "John Doe",
-    ConsignorAddress: "123 Main Street, Delhi",
-    ConsignorGST: "07AABCU9609H1Z7",
-    ConsigneeName: "Jane Smith",
-    ConsigneeAddress: "456 Market Road, Mumbai",
-    ConsigneeGST: "27AAACZ1234H1Z5",
-    Product: "Electronics",
-    TotalPackages: "50",
-    MethodOfPkg: "Cartons",
-    InvoiceNo: "INV123456",
-    DeclaredValue: "As Per Bill",
-    EwayBillNo: "1234567890",
-    ProvisionalAmount: "50000 INR",
-    GreenTax: "500 INR",
-    LabourCharges: "1000 INR",
-    HoldingCharges: "200 INR",
-    MultiPointPickUpCharges: "300 INR",
-    MultiPointDileveryCharges: "400 INR",
-    DocketCharges: "50 INR",
-    OtherCharges: "100 INR",
-    PaymentMode: "Online",
-    TotalAmount: "52500 INR",
-    GSTINPayableBy: "Consignor",
-    BillingBranch: "Delhi Branch",
-    Remarks: "Urgent Delivery"
-  };
-*/
+export const viewDockets = async () => {
+    try {
+        const connectionPool = getPool();
+        if (!connectionPool) {
+            throw new AppError("Database connection not initialized.", 500);
+        }
+        const [result] = await connectionPool.query(
+            `SELECT * FROM DOCKETS`
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `No Docket found`,
+                404
+            );
+        }
+        // console.log(result)
+        return result;
+    } catch (error) {
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("DB Error:", error);
+        throw new AppError("Database error while geting party details.", 500);
+
+    }
+}
+
+export const viewDocketDetails = async (docketNo) => {
+    try {
+        const connectionPool = getPool();
+        if (!connectionPool) {
+            throw new AppError("Database connection not initialized.", 500);
+        }
+        const [result] = await connectionPool.query(
+            `SELECT * FROM DOCKETS WHERE docket_no = ?`, [docketNo]
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `Docket: '${docketNo}' not found`,
+                404
+            );
+        }
+        // console.log(result)
+        return result;
+    } catch (error) {
 
 
-export const addDocketNew = async(newDocketObject)=>{
-  try {
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("DB Error:", error);
+        throw new AppError("Database error while geting party details.", 500);
 
-    console.log(newDocketObject.docket)
-    console.log(newDocketObject.vehicle)
-    console.log(newDocketObject.consignor)
-    console.log(newDocketObject.consignee)
-    console.log(newDocketObject.items)
-    console.log(newDocketObject.eway)
-    console.log(newDocketObject.freight)
-    
-  } catch (error) {
-    console.log(error)
-  }
-
+    }
 }
