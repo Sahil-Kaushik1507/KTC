@@ -6,6 +6,9 @@ export const withTransaction = async (callback) => {
     const connection = await pool.getConnection();
 
     try {
+        if (!connection) {
+                    throw new AppError("Database connection not initialized.", 500);
+                }
 
         await connection.beginTransaction();
 
@@ -26,3 +29,4 @@ export const withTransaction = async (callback) => {
 
     }
 };
+

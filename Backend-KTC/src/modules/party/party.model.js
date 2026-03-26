@@ -2,6 +2,7 @@ import { getPool } from "../../config/db.js";
 import { withTransaction } from "../../utils/dbTranaction.js";
 import { AppError } from "../../utils/AppError.js";
 import { buildInsertQuery } from "../../utils/queryGenrator.js";
+import { getSequenceWithRowLock,addOneToSequenceWithRowLock } from "../../utils/sequenceManager.js"
 
 
 //Sample Data
@@ -22,7 +23,7 @@ export const addParty = async (partyData) => {
 
             const { branch_code } = partyData;
 
-            const party_sequence_name = "PTY_" + branch_code;
+            const party_sequence_name = "PTY-" + branch_code;
 
             const [branchRows] = await connection.query(
                 `SELECT branch_id FROM branches WHERE branch_code=?`,
@@ -35,26 +36,10 @@ export const addParty = async (partyData) => {
 
             const branch_id = branchRows[0].branch_id;
 
-
-            const [seqRows] = await connection.query(
-                `SELECT next_number
-                 FROM sequence_master
-                 WHERE sequence_name = ?
-                 FOR UPDATE`,
-                [party_sequence_name]
-            );
-
-            if (seqRows.length === 0) {
-                throw new AppError(
-                    `Sequence ${party_sequence_name} not found`,
-                    404
-                );
-            }
-
-            const next_number = seqRows[0].next_number;
+            const next_number = getSequenceWithRowLock(connection,party_sequence_name);
 
             const party_code =
-                `${party_sequence_name}_${next_number.toString().padStart(4, "0")}`;
+                `${party_sequence_name}-${next_number.toString().padStart(4, "0")}`;
 
             partyData.branch_id = branch_id;
             partyData.party_code = party_code;
@@ -64,26 +49,16 @@ export const addParty = async (partyData) => {
 
             const [result]= await connection.query(query, values);
 
-            // const [result] = await connection.query(
-            //     `INSERT INTO PARTIES
-            //     (branch_id, party_name, party_code, address, gst_no, contact_person, contact_number)
-            //     VALUES (?,?,?,?,?,?,?)`,
-            //     [branch_id, party_name, party_code, address, gst_no, contact_person, contact_number]
-            // );
-
-
-            await connection.query(
-                `UPDATE sequence_master
-                 SET next_number = next_number + 1
-                 WHERE sequence_name = ?`,
-                [party_sequence_name]
-            );
-
-            return {
-                message: "Party added successfully",
-                partyId: result.insertId,
-                partyCode: party_code
-            };
+            updateSequence=addOneToSequenceWithRowLock(connection,party_sequence_name)
+            if(updateSequence){
+                return {
+                    message: "Party added successfully",
+                    partyId: result.insertId,
+                    partyCode: party_code
+                };
+            }else{
+                throw new AppError("Sequence not Updated after adding. Party not saved you can try again",500)
+            }
 
         });
 

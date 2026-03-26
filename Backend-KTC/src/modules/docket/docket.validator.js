@@ -3,13 +3,19 @@ import { body, param } from "express-validator";
 export const docketValidator = [
 
   // 🔹 Docket Number (Primary Key)
-  body("docket_no")
-    .trim()
-    .toUpperCase()
+  // body("docket_no")
+  //   .trim()
+  //   .toUpperCase()
+  //   .notEmpty()
+  //   .withMessage("Docket number is required")
+  //   .isLength({ min: 3, max: 50 })
+  //   .withMessage("Docket number must be between 3 and 50 characters"),
+
+  body("request_id")
     .notEmpty()
-    .withMessage("Docket number is required")
-    .isLength({ min: 3, max: 50 })
-    .withMessage("Docket number must be between 3 and 50 characters"),
+    .withMessage("request_id is required")
+    .isUUID(4)
+    .withMessage("request_id must be a valid UUID v4"),
 
   // 🔹 Branch ID
   body("branch_id")
@@ -160,7 +166,78 @@ export const docketValidator = [
     .optional({ checkFalsy: true })
     .trim()
     .isLength({ max: 500 })
-    .withMessage("Remarks too long")
+    .withMessage("Remarks too long"),
+
+
+
+  body("items")
+    .notEmpty()
+    .withMessage("Items are required")
+    .isArray({ min: 1 })
+    .withMessage("Items must be a non-empty array"),
+
+
+     // 🔹 Product Name
+    body("items.*.product_name")
+        .trim()
+        .notEmpty()
+        .withMessage("Product name is required")
+        .isLength({ min: 2, max: 255 })
+        .withMessage("Product name must be between 2 and 255 characters"),
+
+    // 🔹 Total Packages
+    body("items.*.total_packages")
+        .notEmpty()
+        .withMessage("Total packages is required")
+        .isInt({ min: 1 })
+        .withMessage("Total packages must be a positive integer")
+        .toInt(),
+
+    // 🔹 Packaging Method
+    body("items.*.packaging_method")
+        .trim()
+        .notEmpty()
+        .withMessage("Packaging Method is required")
+        .isLength({ min: 2, max: 100 })
+        .withMessage("Packaging method must be between 2 and 100 characters"),
+
+    // 🔹 Declared Value
+    body("items.*.declared_value")
+        .notEmpty()
+        .withMessage("Declared value is required")
+        .isFloat({ min: 0 })
+        .withMessage("Declared value must be a positive number")
+        .toFloat()
+        .custom((value) => {
+            if (value > 100000000) { // 10 crore safety limit
+                throw new Error("Declared value too large");
+            }
+            return true;
+        }),
+
+  body("ewayBills")
+    .notEmpty()
+    .withMessage("ewayBills are required")
+    .isArray({ min: 1 })
+    .withMessage("ewayBills must be a non-empty array"),
+
+ body("ewayBills.*.invoice_no")
+    .trim()
+    .notEmpty()
+    .withMessage("Invoice number is required")
+    .isLength({ min: 2, max: 50 })
+    .withMessage("Invoice number must be between 2 and 50 characters")
+    .matches(/^[A-Za-z0-9\-\/]+$/)
+    .withMessage("Invoice number contains invalid characters"),
+
+  // 🔹 E-Way Bill Number
+  body("ewayBills.*.eway_bill_no")
+    .trim()
+    .notEmpty()
+    .withMessage("E-way bill number is required")
+    .matches(/^[0-9]{12}$/)
+    .withMessage("E-way bill must be a 12-digit number"),
+
 ];
 
 

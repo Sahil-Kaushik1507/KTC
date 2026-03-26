@@ -45,7 +45,7 @@ ON DUPLICATE KEY UPDATE email = email;
     ====================================== */
     await getPool().query(`
       INSERT INTO sequence_master (sequence_name,next_number)
-      VALUES ('PTY',1), ('DOCKET_KOL',1)
+      VALUES ('PTY-KOL',1), ('DKT-KOL-2026',1)
       ON DUPLICATE KEY UPDATE sequence_name = sequence_name;
     `);
 
@@ -116,32 +116,32 @@ VALUES
     // Docket 1
     await getPool().query(`
       INSERT INTO dockets 
-        (docket_no, branch_id, docket_date, source, destination, vehicle_id, charged_weight, consignor_id, consignee_id, payment_mode, billing_branch_id, gstin_payable_by, remarks)
+        (docket_no, branch_id, docket_date, source, destination, vehicle_id, charged_weight, consignor_id, consignee_id, payment_mode, billing_branch_id, gstin_payable_by, remarks,request_id)
       VALUES 
-        ('DKT001', 1, '2026-03-03', 'Noida', 'Pune', 1, 5200, 1, 2, 'CASH', 1, 'CONSIGNOR', 'Urgent delivery')
+        ('HDR-2026-000001', 1, '2026-03-03', 'Noida', 'Pune', 1, 5200, 1, 2, 'CASH', 1, 'CONSIGNOR', 'Urgent delivery',"3f50c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d45")
       ON DUPLICATE KEY UPDATE remarks = VALUES(remarks);
     `);
 
     // Docket Items for DKT001
     await getPool().query(`
-      INSERT IGNORE INTO docket_items (docket_id, product_name, total_packages, packaging_method, declared_value)
+      INSERT IGNORE INTO docket_items (docket_no, product_name, total_packages, packaging_method, declared_value)
       VALUES
-        ('DKT001', 'LED Lights', 100, 'Box', 50000),
-        ('DKT001', 'Fans', 50, 'Carton', 25000);
+        ('HDR-2026-000001', 'LED Lights', 100, 'Box', 50000),
+        ('HDR-2026-000001', 'Fans', 50, 'Carton', 25000);
     `);
 
     // Eway Bill for DKT001
     await getPool().query(`
-      INSERT IGNORE INTO eway_bills (docket_id, invoice_no, eway_bill_no)
+      INSERT IGNORE INTO eway_bills (docket_no, invoice_no, eway_bill_no)
       VALUES
-        ('DKT001', 'INV1001', 'EWB1001');
+        ('HDR-2026-000001', 'INV1001', 'EWB1001');
     `);
 
     // Freight for DKT001
     await getPool().query(`
-      INSERT IGNORE INTO freight (docket_id, rate_id, truck_freight, company_freight, multipoint_pickup, multipoint_delivery, labour, holding, docket_charge, other_charges, subtotal, gst, grand_total)
+      INSERT IGNORE INTO docket_frieght (docket_no, truck_freight, company_freight, multipoint_pickup, multipoint_delivery, labour, holding, docket_charge, other_charges, subtotal, gst, grand_total)
       VALUES
-        ('DKT001', 1, 12000, 0, 0, 0, 500, 200, 100, 50, 12950, 1170, 14120);
+        ('HDR-2026-000001', 12000, 0, 0, 0, 500, 200, 100, 50, 12950, 1170, 14120);
     `);
 
     console.log("Seeding completed successfully!");

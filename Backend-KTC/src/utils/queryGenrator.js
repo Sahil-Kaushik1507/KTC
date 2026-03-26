@@ -10,6 +10,7 @@ export const buildInsertQuery = (table, data) => {
     return { query, values };
 };
 
+
 export const buildUpdateQuery = (table, data, whereField) => {
 
     const columns = Object.keys(data);

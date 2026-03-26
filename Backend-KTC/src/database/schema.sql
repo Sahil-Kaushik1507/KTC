@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS dockets (
     billing_branch_id INT,
     gstin_payable_by ENUM('CONSIGNOR','CONSIGNEE'),
     remarks TEXT,
+    request_id VARCHAR(100) NOT NULL UNIQUE,
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL,
@@ -166,12 +167,13 @@ CREATE TABLE IF NOT EXISTS dockets (
 -- ==============================
 CREATE TABLE IF NOT EXISTS docket_items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
-    docket_id VARCHAR(50),
+    docket_no VARCHAR(50),
     product_name VARCHAR(255),
     total_packages INT,
     packaging_method VARCHAR(100),
     declared_value DECIMAL(14,2),
-    FOREIGN KEY (docket_id)
+    CONSTRAINT uq_docket_product UNIQUE(docket_no,product_name),
+    FOREIGN KEY (docket_no)
         REFERENCES dockets(docket_no)
         ON DELETE CASCADE
 );
@@ -181,10 +183,14 @@ CREATE TABLE IF NOT EXISTS docket_items (
 -- ==============================
 CREATE TABLE IF NOT EXISTS eway_bills (
     eway_id INT AUTO_INCREMENT PRIMARY KEY,
-    docket_id VARCHAR(50),
+    docket_no VARCHAR(50),
     invoice_no VARCHAR(50),
     eway_bill_no VARCHAR(50),
-    FOREIGN KEY (docket_id)
+    CONSTRAINT uq_docket_invoice UNIQUE (docket_no, invoice_no),
+    CONSTRAINT uq_docket_eway UNIQUE (docket_no, eway_bill_no),
+    CONSTRAINT uq_invoice_eway UNIQUE (invoice_no, eway_bill_no),
+
+    FOREIGN KEY (docket_no)
         REFERENCES dockets(docket_no)
         ON DELETE CASCADE
 );
@@ -192,12 +198,11 @@ CREATE TABLE IF NOT EXISTS eway_bills (
 -- ==============================
 -- FREIGHT (INCOME)
 -- ==============================
-CREATE TABLE IF NOT EXISTS freight (
+CREATE TABLE IF NOT EXISTS docket_frieght (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    docket_id VARCHAR(50),
-    rate_id INT,
-    truck_freight DECIMAL(14,2),
-    company_freight DECIMAL(14,2),
+    docket_no VARCHAR(50) UNIQUE,
+    truck_freight DECIMAL(14,2) NOT NULL,
+    company_freight DECIMAL(14,2) NOT NULL,
     multipoint_pickup DECIMAL(14,2) DEFAULT 0,
     multipoint_delivery DECIMAL(14,2) DEFAULT 0,
     labour DECIMAL(14,2) DEFAULT 0,
@@ -209,10 +214,7 @@ CREATE TABLE IF NOT EXISTS freight (
     gst DECIMAL(14,2) DEFAULT 0,
     grand_total DECIMAL(14,2),
     payment_status ENUM('PENDING','RECEIVED') DEFAULT 'PENDING',
-    FOREIGN KEY (docket_id)
+    FOREIGN KEY (docket_no)
         REFERENCES dockets(docket_no)
-        ON DELETE CASCADE,
-    FOREIGN KEY (rate_id)
-        REFERENCES rate_master(rate_id)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
