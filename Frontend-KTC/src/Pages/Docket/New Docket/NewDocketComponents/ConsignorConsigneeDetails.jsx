@@ -1,6 +1,6 @@
 import React from "react";
 import InputControl from "../../../../Components/InputComponents/InputController";
-import { useDocketContextData } from "../../../../Context/DocketContext";
+import { useDocketContextData } from "../../../../store/DocketContext";
 
 export default function ConsignorConsigneeDetails() {
   const {isReadOnly}=useDocketContextData();

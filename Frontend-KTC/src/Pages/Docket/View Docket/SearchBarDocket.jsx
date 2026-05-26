@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import BasicInputBox from "../../../Components/InputComponents/BasicInputBox";
-import { useDocketContextData } from "../../../Context/DocketContext";
+import { useDocketContextData } from "../../../store/DocketContext";
 
 export default function SearchBarDocket() {
   const { setIsReadOnly, isReadOnly,searchedDocketNo } = useDocketContextData();

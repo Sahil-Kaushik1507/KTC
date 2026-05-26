@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { useSideBarOptionsContextData } from "../../Context/SideBarOptionsContext.jsx";
+import { useSideBarOptionsContextData } from "../../store/SideBarOptionsContext.jsx";
 import ComponentMap from "./ComponentMapFuntion.jsx";
-import { DocketContextProvider } from "../../Context/DocketContext.jsx";
+import { DocketContextProvider } from "../../store/DocketContext.jsx";
 
 const MainSpace = React.memo(() => {
   const { sideBarOption, subSideBarOption } = useSideBarOptionsContextData();

@@ -69,6 +69,7 @@ export const loginUser = async (userData) => {
         }
 
         const { email, password } = userData
+       
 
         const [result] = await connectionPool.query(`
             SELECT user_id,email,password_hash,role,is_active FROM userS
@@ -94,6 +95,7 @@ export const loginUser = async (userData) => {
 
             return {
                 message: `Login Successfull`,
+                user:payload,
                 token: newtoken
             };
         } else {

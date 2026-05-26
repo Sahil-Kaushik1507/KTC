@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import axios from "axios";
 import ViewDocketFormMaker from "./ViewDocketFormMaker";
 import initialValues from "../InitialValuesDocketForm";
-import {useDocketContextData} from "../../../Context/DocketContext"
+import {useDocketContextData} from "../../../store/DocketContext"
 
 export default function ViewDocketForm() {
     const {setSearchedDocketNo,setIsReadOnly}=useDocketContextData();

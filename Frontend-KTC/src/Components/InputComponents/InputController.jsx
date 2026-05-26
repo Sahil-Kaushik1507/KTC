@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import BasicInputBox from "./BasicInputBox";
+import BasicInput from "./BasicInput";
 import CheckBoxInput from "./CheckBoxInput";
-import DropDownInputBox from "./DropDownInputBox";
-import RadioInputBox from "./RadioInputBox";
+import DroupDownInput from "./DropDownInput";
+import RadioInput from "./RadioInput";
 import TextAreaInput from "./TextAreaInput";
-import SelectInputBox from "./SelectInputBox";
+
 
 const InputControl = React.memo(({ type, ...rest }) => {
 
@@ -15,17 +15,16 @@ const InputControl = React.memo(({ type, ...rest }) => {
             case "password":
             case "number":
             case "date":
-                return <BasicInputBox {...rest} type={type} />;
-            case "radio":
-                return <RadioInputBox {...rest} />;
-            case "dropdown":
-                return <DropDownInputBox {...rest} />;
-            case "select":
-                return <SelectInputBox {...rest} />;
-            case "textarea":
-                return <TextAreaInput {...rest} />;
+                return <BasicInput {...rest} type={type} />;
             case "checkbox":
                 return <CheckBoxInput {...rest} />;
+            case "radio":
+                return <RadioInput {...rest} />;
+            case "droupdown":
+                return <DroupDownInput {...rest} />;
+            case "textarea":
+                return <TextAreaInput {...rest} />;
+            
             default:
                 return null;
         }
