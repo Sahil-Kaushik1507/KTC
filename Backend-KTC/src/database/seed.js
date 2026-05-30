@@ -10,8 +10,9 @@ export const seedDatabase = async () => {
     await getPool().query(`
       INSERT INTO branches (branch_name,branch_code, address)
       VALUES
-        ('Pune Branch','PUN', 'Pune Industrial Area'),
-        ('Kolkata Branch','KOL', 'Kolkata Transport Nagar')
+        ('Pune','PUN', 'Pune Industrial Area'),
+        ('Kolkata','KOL', 'Kolkata Transport Nagar'),
+        ('Haridwar','HDR', 'Haridwar Transport Nagar')
       ON DUPLICATE KEY UPDATE branch_name = branch_name;
     `);
 
@@ -72,22 +73,23 @@ ON DUPLICATE KEY UPDATE email = email;
 
 
     /* ======================================
-       7️⃣ PARTIES
+       7️⃣ consignor PARTIES
     ====================================== */
     await getPool().query(`
-      INSERT INTO parties 
-        (branch_id, party_name, party_code, address, gst_no, contact_person, contact_number)
+      INSERT INTO consignor_parties 
+        (branch_id, consignor_party_name, consignor_party_code, consignor_address, consignor_gst_no, consignor_contact_person, consignor_contact_number)
       VALUES
         (1, 'Halonix Pvt Ltd','PTY_KOL_0201', 'Noida Industrial Area', '09AAACH1234F1Z2', 'Mr. Arjun', '9988001122'),
         (2, 'Varamuti Industries','PTY_PUN_0301', 'Kolkata Warehouse Zone', '19AAACV5678K1Z5', 'Mr. Deepak', '8877003344')
-      ON DUPLICATE KEY UPDATE party_name = party_name;
+      ON DUPLICATE KEY UPDATE consignor_party_name = consignor_party_name;
     `);
+    
 
     /* ======================================
        8️⃣ PARTY - PRODUCTS (Regular Items)
     ====================================== */
     await getPool().query(`
-     INSERT INTO party_products (party_id, product_name, priority)
+     INSERT INTO party_products (consignor_party_id, product_name, priority)
 VALUES
 (1, 'Steel Rods', 1),
 (1, 'Iron Sheets', 2),
@@ -100,10 +102,21 @@ VALUES
     `);
 
     /* ======================================
+       7️⃣ consignee PARTIES
+    ====================================== */
+    await getPool().query(`
+      INSERT INTO consignee_parties 
+        (branch_id, consignee_party_name,  consignee_address, consignee_gst_no, consignee_contact_person, consignee_contact_number)
+      VALUES
+        (1, 'Hawa Pvt Ltd', 'Noida Industrial Area', '09AAACH1234F1Z2', 'Mr. Arjun', '9988001122'),
+        (2, 'Vara Industries','Kolkata Warehouse Zone', '19AAACV5678K1Z5', 'Mr. Deepak', '8877003344')
+      ON DUPLICATE KEY UPDATE consignee_party_name = consignee_party_name;
+    `);
+    /* ======================================
        9️⃣ RATE MASTER
     ====================================== */
     await getPool().query(`
-      INSERT INTO rate_master (party_id, source, destination, size_id, freight)
+      INSERT INTO rate_master (consignor_party_id, source, destination, size_id, freight)
       VALUES
         (1, 'Noida', 'Pune', 1, 12000),
         (2, 'Kolkata', 'Delhi', 2, 18000)

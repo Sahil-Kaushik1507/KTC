@@ -15,7 +15,7 @@ import { getSequenceWithRowLock,addOneToSequenceWithRowLock } from "../../utils/
 //   "contact_number": "9876543210"
 // }
 
-export const addParty = async (partyData) => {
+export const addConsignorParty = async (partyData) => {
 
     try {
 
@@ -89,7 +89,7 @@ export const addParty = async (partyData) => {
 
 
 // http://localhost:8001/api/v1/getPartyDetails/:party_code
-export const getParty = async (party_code) => {
+export const getConsignorParty = async (party_code) => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
@@ -127,7 +127,7 @@ export const getParty = async (party_code) => {
     }
 }
 
-export const getAllParties = async () => {
+export const getAllConsignorParties = async () => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
@@ -162,3 +162,84 @@ export const getAllParties = async () => {
 }
 
 
+export const getBranchWiseConsignorPartiesWithProducts = async (branch_id) => {
+    try {
+
+        const connectionPool = getPool();
+
+        if (!connectionPool) {
+            throw new AppError(
+                "Database connection not initialized.",
+                500
+            );
+        }
+
+        const [rows] = await connectionPool.query(
+            `
+            SELECT 
+                cp.*,
+                pp.product_name
+            FROM consignor_parties cp
+            LEFT JOIN party_products pp
+                ON cp.consignor_party_id = pp.consignor_party_id
+            WHERE cp.branch_id = ?
+            `,
+            [branch_id]
+        );
+
+        if (rows.length === 0) {
+            throw new AppError(
+                `No party with branch code:'${branch_id}'`,
+                404
+            );
+        }
+
+        // Group Parties
+        const groupedParties = rows.reduce((acc, row) => {
+
+            const partyId = row.consignor_party_id;
+
+            // Create Party First Time
+            if (!acc[partyId]) {
+
+                acc[partyId] = {
+                    consignor_party_id: row.consignor_party_id,
+                    branch_id: row.branch_id,
+                    party_name: row.consignor_party_name,
+                    address: row.consignor_address,
+                    gst_no: row.consignor_gst_no,
+
+                    // Add remaining party fields here
+
+                    products: []
+                };
+            }
+
+            // Push Product
+            if (row.product_name) {
+                acc[partyId].products.push(row.product_name);
+            }
+
+            return acc;
+
+        }, {});
+
+        return {
+            message: "Parties Found successfully",
+            partyDetails: Object.values(groupedParties)
+        };
+
+    } catch (error) {
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+
+        console.error("DB Error:", error);
+
+        throw new AppError(
+            "Database error while getting party details.",
+            500
+        );
+    }
+};

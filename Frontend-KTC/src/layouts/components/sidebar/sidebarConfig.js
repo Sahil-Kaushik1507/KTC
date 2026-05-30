@@ -8,7 +8,7 @@ export const SIDEBAR_ITEMS = [
       {
         id: 11,
         label: "Create Docket",
-        path: "/docket/create",
+        path: "/docket/new",
       },
 
       {

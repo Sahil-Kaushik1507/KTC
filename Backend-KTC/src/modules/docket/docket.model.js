@@ -6,6 +6,8 @@ import { getSequenceWithRowLock, addOneToSequenceWithRowLock } from "../../utils
 import { addItems } from "../docket_items/items.models.js";
 import { addEwayBills } from "../docket_ewayBills/ewaybills.models.js";
 import { addFrieght } from "../docket_frieght/frieght.models.js";
+import { getNextAvailableNumber } from "../sequenceManager/sequenceManager.models.js";
+import { getBranchWiseConsignorPartiesWithProducts } from "../consignorParty/consignorParty.model.js";
 
 
 // sampledata
@@ -24,6 +26,8 @@ import { addFrieght } from "../docket_frieght/frieght.models.js";
 //   "gstin_payable_by": "CONSIGNEE",
 //   "remarks": "Handle with care. Fragile goods."
 // }
+
+
 
 export const addDocket = async (newDocketData) => {
 
@@ -68,7 +72,7 @@ export const addDocket = async (newDocketData) => {
       if (insertedItemsCount < 1) {
         throw new AppError("No Item Added in the Docket", 500);
       }
-      
+
       let insertedewayBillsCount = 0;
       for (const ewayBill of ewayBills) {
         ewayBill.docket_no = docket_no;
@@ -81,11 +85,11 @@ export const addDocket = async (newDocketData) => {
       if (insertedewayBillsCount < 1) {
         throw new AppError("No Eway Bill Added in the Docket", 500);
       }
-      
+
       frieght.docket_no = docket_no;
       const frieghtResult = await addFrieght(frieght, connection)
-     
-      if (frieghtResult.frieghtInsertID<1) {
+
+      if (frieghtResult.frieghtInsertID < 1) {
         throw new AppError("No Frieght Added in the Docket", 500);
       }
 
@@ -197,4 +201,41 @@ export const viewDocketDetails = async (docketNo) => {
     throw new AppError("Database error while geting docket details.", 500);
 
   }
+}
+
+
+export const getNewDocketData = async ({branch_code,branch_id}) => {
+  try {
+
+    //Docket No.
+  const currentYear = new Date().getFullYear();
+  const docket_sequence_name = "DKT-" + branch_code + "-" + currentYear;
+    const {next_number} = await getNextAvailableNumber(docket_sequence_name)
+    let docket_no; 
+    if(next_number){
+      docket_no =
+      `${branch_code}-${currentYear}-${next_number.toString().padStart(6, "0")}`;
+    }
+
+    //ConsignorPartie
+
+    const parties = await getBranchWiseConsignorPartiesWithProducts(branch_id)
+
+    console.log(parties)
+
+
+
+    return {
+      docketNo: docket_no,
+      parties:parties
+
+    }
+  } catch (error) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+    console.error("DB Error:", error);
+    throw new AppError("Database error while geting docket details.", 500);
+  }
+
 }

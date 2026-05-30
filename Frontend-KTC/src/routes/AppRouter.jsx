@@ -1,21 +1,24 @@
 import { Routes, Route } from "react-router-dom";
 
-import Login from "../features/auth/pages/Login";
-
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 
 import ProtectedRoute from "./ProtectedRoute";
 
+import { AuthRoutes } from "../features/auth/routes/AuthRoutes.jsx";
+
+import { DocketRoutes } from "../features/docket/routes/DocketRoutes.jsx";
+
+
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* AUTH LAYOUT */}
+      {/* AUTH ROUTES */}
       <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
+        {AuthRoutes}
       </Route>
 
-      {/* MAIN ERP LAYOUT */}
+      {/* PROTECTED ERP ROUTES */}
       <Route
         element={
           <ProtectedRoute>
@@ -23,12 +26,12 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route path="/" element={<h1>Dashboard</h1>} />
+        <Route
+          path="/"
+          element={<h1>Dashboard</h1>}
+        />
 
-      <Route path="/docket/create" element={<h1>Create Docket</h1>} />
-    <Route path="/docket/view" element={<h1>View Docket</h1>} />
-
-    <Route path="/bill/create" element={<h1>Create Bill</h1>} />
+        {DocketRoutes}
 
       </Route>
     </Routes>

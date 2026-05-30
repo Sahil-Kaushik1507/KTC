@@ -69,10 +69,10 @@ export const loginUser = async (userData) => {
         }
 
         const { email, password } = userData
-       
+
 
         const [result] = await connectionPool.query(`
-            SELECT user_id,email,password_hash,role,is_active FROM userS
+            SELECT user_id,email,password_hash,role,is_active,branch_id FROM users
             WHERE email=?`, [email])
 
 
@@ -89,13 +89,21 @@ export const loginUser = async (userData) => {
         }
 
         if (passwordCheck) {
-            const { user_id, email, role } = result[0]
-            const payload = { user_id, email, role }
+
+            const [branchResult] = await connectionPool.query(`
+            SELECT branch_code,branch_name FROM branches
+            WHERE branch_id=?`, [result[0].branch_id])
+
+            const branch_code= branchResult[0].branch_code
+            const branch_name= branchResult[0].branch_name
+
+            const { user_id, email, role , branch_id} = result[0]
+            const payload = { user_id, email, role, branch_id, branch_code, branch_name }
             const newtoken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" })
 
             return {
                 message: `Login Successfull`,
-                user:payload,
+                user: payload,
                 token: newtoken
             };
         } else {
@@ -225,9 +233,9 @@ export const deactivateUserReq = async (user_id) => {
 
     } catch (error) {
 
-          if (error instanceof AppError) {
+        if (error instanceof AppError) {
             throw error;
         }
 
-}
+    }
 }

@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const newPartyValidator = [
+export const newConsigneePartyValidator = [
 
 
     body("branch_code")

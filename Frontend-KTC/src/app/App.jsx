@@ -1,5 +1,9 @@
 import AppRoutes from "../routes/AppRouter.jsx";
+import QueryProvider from "./providers/QueryProvider.jsx";
 
 export default function App() {
-  return <AppRoutes />;
+  return (
+  <QueryProvider>
+    <AppRoutes />;
+  </QueryProvider>)
 }

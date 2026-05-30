@@ -46,18 +46,34 @@ REFERENCES users(user_id)
 ON DELETE SET NULL;
 
 -- ==============================
--- PARTIES (Consignor / Consignee)
+-- PARTIES (Consignor)
 -- ==============================
-CREATE TABLE IF NOT EXISTS parties (
-    party_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS consignor_parties (
+    consignor_party_id INT AUTO_INCREMENT PRIMARY KEY,
     branch_id INT,
-    party_name VARCHAR(255) NOT NULL ,
-    party_code VARCHAR(15) NOT NULL UNIQUE,
-    address TEXT NOT NULL,
-    gst_no VARCHAR(20) NOT NULL UNIQUE,
-    contact_person VARCHAR(150),
-    contact_number VARCHAR(15),
-    UNIQUE (party_name, branch_id),
+    consignor_party_name VARCHAR(255) NOT NULL ,
+    consignor_party_code VARCHAR(15) NOT NULL UNIQUE,
+    consignor_address TEXT NOT NULL,
+    consignor_gst_no VARCHAR(20) NOT NULL UNIQUE,
+    consignor_contact_person VARCHAR(150),
+    consignor_contact_number VARCHAR(15),
+    UNIQUE (consignor_party_name, branch_id),
+    FOREIGN KEY (branch_id)
+        REFERENCES branches(branch_id)
+        ON DELETE SET NULL
+);
+-- ==============================
+-- PARTIES (Consignee)
+-- ==============================
+CREATE TABLE IF NOT EXISTS consignee_parties (
+    consignee_party_id INT AUTO_INCREMENT PRIMARY KEY,
+    branch_id INT,
+    consignee_party_name VARCHAR(255) NOT NULL ,
+    consignee_address TEXT NOT NULL,
+    consignee_gst_no VARCHAR(20) NOT NULL UNIQUE,
+    consignee_contact_person VARCHAR(150),
+    consignee_contact_number VARCHAR(15),
+    UNIQUE (consignee_party_name, branch_id),
     FOREIGN KEY (branch_id)
         REFERENCES branches(branch_id)
         ON DELETE SET NULL
@@ -76,12 +92,12 @@ CREATE TABLE sequence_master (
 -- PRODUCTS (MASTER)
 -- ==============================
 CREATE TABLE party_products (
-    party_id INT NOT NULL,
+    consignor_party_id INT NOT NULL,
     product_name VARCHAR(255) NOT NULL,
     priority INT DEFAULT 0,
-    PRIMARY KEY (party_id, product_name),
-    FOREIGN KEY (party_id)
-        REFERENCES parties(party_id)
+    PRIMARY KEY (consignor_party_id, product_name),
+    FOREIGN KEY (consignor_party_id)
+        REFERENCES consignor_parties(consignor_party_id)
         ON DELETE CASCADE
 );
 
@@ -113,14 +129,14 @@ CREATE TABLE IF NOT EXISTS vehicles (
 -- ==============================
 CREATE TABLE IF NOT EXISTS rate_master (
     rate_id INT AUTO_INCREMENT PRIMARY KEY,
-    party_id INT,
+    consignor_party_id INT,
     source VARCHAR(150),
     destination VARCHAR(150),
     size_id INT,
     freight DECIMAL(12,2),
-    UNIQUE(party_id,source,destination,size_id),
-    FOREIGN KEY (party_id)
-        REFERENCES parties(party_id)
+    UNIQUE(consignor_party_id,source,destination,size_id),
+    FOREIGN KEY (consignor_party_id)
+        REFERENCES consignor_parties(consignor_party_id)
         ON DELETE CASCADE,
     FOREIGN KEY (size_id)
         REFERENCES vehicle_sizes(size_id)
@@ -152,10 +168,10 @@ CREATE TABLE IF NOT EXISTS dockets (
         REFERENCES branches(branch_id)
         ON DELETE SET NULL,
     FOREIGN KEY (consignor_id)
-        REFERENCES parties(party_id)
+        REFERENCES consignor_parties(consignor_party_id)
         ON DELETE SET NULL,
     FOREIGN KEY (consignee_id)
-        REFERENCES parties(party_id)
+        REFERENCES consignee_parties(consignee_party_id)
         ON DELETE SET NULL,
     FOREIGN KEY (vehicle_id)
         REFERENCES vehicles(vehicle_id)

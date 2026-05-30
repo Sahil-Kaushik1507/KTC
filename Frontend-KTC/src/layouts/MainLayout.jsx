@@ -10,14 +10,14 @@ export default function MainLayout() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex h-screen w-full flex-col">
+    <div className="flex h-[95vh] w-full flex-col overflow-hidden">
       {/* Header */}
       <header className="w-full bg-white shadow-md">
         <Header />
       </header>
 
       {/* Main Layout */}
-      <div className="flex flex-1">
+      <div className="flex h-full  ">
         {/* Sidebar */}
         <aside className="flex flex-col bg-white shadow-md">
          <SideBar/>
@@ -29,15 +29,16 @@ export default function MainLayout() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-gray-50 p-6 shadow-inner">
+        <main className="w-full overflow-y-auto  bg-gray-50 ">
             {/* <MainSpace/> */}
             <Outlet/>
+          
         </main>
+      </div>
 
-        <footer className="flex-1 overflow-auto bg-gray-50 p-6 shadow-inner">
+       <footer>
           <Footer/>
         </footer>
-      </div>
     </div>
   );
 }

@@ -80,3 +80,5 @@ export const getNextAvailableNumber = async (sequence_name) => {
         throw new AppError("Database error while adding branch.", 500);
     }
 };
+
+
