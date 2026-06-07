@@ -11,7 +11,7 @@ import ratesRouter from "./modules/rates/rates.routes.js"
 import docketRouter from "./modules/docket/docket.routes.js"
 import docketItemRouter from "./modules/docket_items/items.routes.js"
 import docketEwayBills from "./modules/docket_ewayBills/ewaybills.routes.js"
-import docketFrieght from "./modules/docket_frieght/frieght.routes.js"
+import docketFrieght from "./modules/docket_truck_frieght/frieght.routes.js"
 
 const router = Router()
 

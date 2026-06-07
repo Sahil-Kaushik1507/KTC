@@ -24,7 +24,8 @@ const DroupDownInput = memo(
     const registerField = register(label);
 
     return (
-      <div className="relative w-full">
+      <div className="w-full">
+      <div className="relative">
         {/* Select Input */}
         <select
           id={label}
@@ -58,6 +59,7 @@ const DroupDownInput = memo(
         >
           {labelText}
         </label>
+        </div>
 
         {/* Error */}
         {error && (

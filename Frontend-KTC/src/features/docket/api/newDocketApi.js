@@ -25,3 +25,39 @@ export const newDocketInitialData = async (payload) => {
 }
 
 
+export const getTruckDetails = async (payload) => {
+
+    try {
+        const response = await axiosInstance.get(
+            '/vehicle/getTruckDetails',
+           {
+            params:payload
+           }
+        )
+
+        return response.data
+    } catch (error) {
+        throw error.response?.data?.message || "Something went wrong";
+    }
+
+}
+
+
+export const getRateDetails = async (payload) => {
+
+    try {
+        const response = await axiosInstance.get(
+            '/rates/getRateDetails',
+           {
+            params:payload
+           }
+        )
+
+        return response.data
+    } catch (error) {
+        throw error.response?.data?.message || "Something went wrong";
+    }
+
+}
+
+

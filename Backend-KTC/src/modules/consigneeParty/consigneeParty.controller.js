@@ -1,5 +1,5 @@
 import asyncHandler from "../../middlewares/asyncHandler.js";
-import {addConsigneeParty, getAllParties} from './consigneeParty.model.js'
+import {addConsigneeParty, getAllConsigneeParties} from './consigneeParty.model.js'
 
 export const addNewConsigneeParty = asyncHandler(async(req,res)=>{
     const result = await addConsigneeParty(req.body)

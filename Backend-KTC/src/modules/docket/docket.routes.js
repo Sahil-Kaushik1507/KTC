@@ -7,7 +7,9 @@ const router = Router();
 
 
 router.route('/new')
-    .post(docketValidator, validateRequest, addNewDocket)
+    .post(
+        // docketValidator, validateRequest, 
+        addNewDocket)
 
 router.route('/nextDocketData')
     .post(getNextDocketData)

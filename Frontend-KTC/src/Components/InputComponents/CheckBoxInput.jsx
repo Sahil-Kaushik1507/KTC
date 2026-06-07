@@ -23,7 +23,8 @@ const CheckBoxInput = memo(
     const registerField = register(label);
 
     return (
-      <div className="flex flex-col w-full">
+      <div className="w-full">
+      <div className="flex flex-col">
         {/* Group Label */}
         <label className="text-gray-600 font-medium mb-1">
           {labelText}
@@ -64,7 +65,7 @@ const CheckBoxInput = memo(
             </label>
           ))}
         </div>
-
+        </div>
         {/* Error */}
         {error && (
           <div className="text-red-500 text-sm mt-1">

@@ -19,24 +19,24 @@ import { buildInsertQuery } from "../../utils/queryGenrator.js";
 //   "payment_status": "PENDING"
 // }
 
-export const addFrieght = async (newDocketFrieghtData, connection) => {
+export const addTruckFrieght = async (newDocketFrieghtData, connection) => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
             throw new AppError("Database connection not initialized.", 500);
         }
 
-        const { query, values } = buildInsertQuery("docket_frieght", newDocketFrieghtData)
+        const { query, values } = buildInsertQuery("truck_freight", newDocketFrieghtData)
         const [result] = connection
             ? await connection.query(query, values)
             : await connectionPool.query(query, values);
 
         if (result.affectedRows !== 1) {
-            throw new AppError("Failed to insert docket Frieghts.", 500);
+            throw new AppError("Failed to insert docket Truck Frieghts.", 500);
         }
 
         return {
-            message: `Docket Frieghts Added successfully`,
+            message: `Docket Truck Frieghts Added successfully`,
             frieghtInsertID: result.insertId
         };
 

@@ -58,7 +58,7 @@ export const viewAllSizes = async () => {
                 404
             );
         }
-        console.log(result)
+
         return result;
     } catch (error) {
 

@@ -1,26 +1,22 @@
 export const docketSteps = [
   {
-    path: "branch-selection",
-    label: "Branch Details",
-  },
-  {
-    path: "basic",
+    path: "",
     label: "Basic Details",
   },
   {
-    path: "consignor",
-    label: "Consignor Details",
+    path: "parties-item",
+    label: "Parties & Items Details",
   },
   {
-    path: "consignee",
-    label: "Consignee Details",
+    path: "invoice-eway",
+    label: "Invoice & Eway Bills Details",
   },
   {
-    path: "charges",
-    label: "Charges",
+    path: "freight",
+    label: "Freight Details",
   },
   {
-    path: "review",
-    label: "Review & Submit",
+    path: "billing-remarks",
+    label: "Billing Details & Remarks",
   },
 ];

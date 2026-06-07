@@ -1,6 +1,6 @@
 import { getPool } from "../../config/db.js";
 import { AppError } from "../../utils/AppError.js";
-import { buildInsertQuery } from "../../utils/queryGenrator.js"
+
 
 
 // sampledata
@@ -88,4 +88,48 @@ export const addRate = async (newRateData) => {
         throw new AppError("Database error while adding Rate.", 500);
     }
 };
+
+
+
+
+export const getRate = async (rateData) => {
+    try {
+        const connectionPool = getPool();
+        if (!connectionPool) {
+            throw new AppError("Database connection not initialized.", 500);
+        }
+
+
+        // console.log(rateData)
+
+        const {consignor_party_id, source, destination, size_id} = rateData
+
+        const [result] = await connectionPool.query(
+            `SELECT freight FROM rate_master where consignor_party_id=? and  source =? and destination=? and size_id=?`,[consignor_party_id,source,destination,size_id]
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `Rate not found`,
+                404
+            );
+        }
+  
+
+        return {
+            message: `Rate Found successfully`,
+            freight: result
+        };
+
+    } catch (error) {
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("DB Error:", error);
+        throw new AppError("Database error while geting ConsigneeParty details.", 500);
+
+    }
+}
+
 

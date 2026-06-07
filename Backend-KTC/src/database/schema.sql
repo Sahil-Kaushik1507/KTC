@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS vehicle_sizes (
 -- ==============================
 CREATE TABLE IF NOT EXISTS vehicles (
     vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
-    lorry_no VARCHAR(50) UNIQUE NOT NULL,
+    truck_no VARCHAR(50) UNIQUE NOT NULL,
     size_id INT,
     actual_weight DECIMAL(12,2),
     driver_name VARCHAR(150),
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS dockets (
     charged_weight DECIMAL(12,2),
     consignor_id INT,
     consignee_id INT,
-    payment_mode ENUM('CASH','NEFT','RTGS','CHEQUE','TO_PAY','PAID'),
+    payment_mode ENUM('CASH','NEFT','RTGS','CHEQUE','TO PAY','TO BE BILLED'),
     billing_branch_id INT,
     gstin_payable_by ENUM('CONSIGNOR','CONSIGNEE'),
     remarks TEXT,
@@ -212,24 +212,43 @@ CREATE TABLE IF NOT EXISTS eway_bills (
 );
 
 -- ==============================
--- FREIGHT (INCOME)
+-- TRUCK FREIGHT (EXPENCES)
 -- ==============================
-CREATE TABLE IF NOT EXISTS docket_frieght (
+CREATE TABLE IF NOT EXISTS truck_freight (
     id INT AUTO_INCREMENT PRIMARY KEY,
     docket_no VARCHAR(50) UNIQUE,
-    truck_freight DECIMAL(14,2) NOT NULL,
-    company_freight DECIMAL(14,2) NOT NULL,
-    multipoint_pickup DECIMAL(14,2) DEFAULT 0,
-    multipoint_delivery DECIMAL(14,2) DEFAULT 0,
+    freightamt DECIMAL(14,2) NOT NULL,
+    advance DECIMAL(14,2) NOT NULL,
+    balance DECIMAL(14,2) NOT NULL,
     labour DECIMAL(14,2) DEFAULT 0,
     holding DECIMAL(14,2) DEFAULT 0,
-    docket_charge DECIMAL(14,2) DEFAULT 0,
+    multipoint_pickup DECIMAL(14,2) DEFAULT 0,
+    multipoint_delivery DECIMAL(14,2) DEFAULT 0,
     other_charges DECIMAL(14,2) DEFAULT 0,
-    subtotal DECIMAL(14,2),
-    other_state_tax DECIMAL(14,2) DEFAULT 0,
-    gst DECIMAL(14,2) DEFAULT 0,
     grand_total DECIMAL(14,2),
-    payment_status ENUM('PENDING','RECEIVED') DEFAULT 'PENDING',
+    FOREIGN KEY (docket_no)
+        REFERENCES dockets(docket_no)
+        ON DELETE CASCADE
+);
+-- ==============================
+-- COMPANY FREIGHT (INCOME)
+-- ==============================
+CREATE TABLE IF NOT EXISTS party_freight (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    docket_no VARCHAR(50) UNIQUE,
+    freightamt DECIMAL(14,2) NOT NULL,
+    labour DECIMAL(14,2) DEFAULT 0,
+    holding DECIMAL(14,2) DEFAULT 0,
+    multipoint_pickup DECIMAL(14,2) DEFAULT 0,
+    multipoint_delivery DECIMAL(14,2) DEFAULT 0,
+    docket_charge DECIMAL(14,2) DEFAULT 0,
+    green_tax DECIMAL(14,2) NOT NULL,
+    other_charges DECIMAL(14,2) DEFAULT 0,
+    gst_remark VARCHAR(255),
+    gst_amt DECIMAL(14,2) DEFAULT 0,
+    other_state_tax_remark  VARCHAR(255),
+    other_state_tax_amt DECIMAL(14,2) DEFAULT 0,
+    grand_total DECIMAL(14,2),
     FOREIGN KEY (docket_no)
         REFERENCES dockets(docket_no)
         ON DELETE CASCADE

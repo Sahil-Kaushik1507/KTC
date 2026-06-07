@@ -29,7 +29,7 @@ export default function MainLayout() {
         </aside>
 
         {/* Main Content */}
-        <main className="w-full overflow-y-auto  bg-gray-50 ">
+        <main className="w-full overflow-y-auto  bg-[#334155] ">
             {/* <MainSpace/> */}
             <Outlet/>
           

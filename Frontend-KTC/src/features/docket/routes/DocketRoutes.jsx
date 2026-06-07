@@ -1,9 +1,12 @@
 import { Route } from "react-router-dom";
 
-import BranchSelection from "../components/newDocket/steps/Basic_docket";
 import NewDocketLayout from "../layout/NewDocketLayout";
-import Loader from "../../../Components/loader/Loader";
-import Basic_docket from "../components/newDocket/steps/Basic_docket";
+
+import Basic_Truck_docket from "../components/newDocket/steps/Basic_Truck_docket";
+import Parties_docket from "../components/newDocket/steps/Parties_Items_docket";
+import Invoice_Eway_docket from "../components/newDocket/steps/Invoice_eway_docket";
+import Freight_docket from "../components/newDocket/steps/Freight_docket";
+import Billing_Remarks_docket from "../components/newDocket/steps/Billing_Remarks_docket";
 
 export const DocketRoutes = (
   <>
@@ -12,29 +15,27 @@ export const DocketRoutes = (
       element={<NewDocketLayout/>}>
       <Route
         path=""
-        element={<Basic_docket/>}
+        element={<Basic_Truck_docket/>}
       />
 
     
-
       <Route
-        path="consignor"
-        element={<>Consignor</>}
+        path="parties-item"
+        element={<Parties_docket/>}
       />
 
       <Route
-        path="consignee"
-        element={<>Consignee</>}
+        path="invoice-eway"
+        element={<Invoice_Eway_docket/>}
       />
 
       <Route
-        path="charges"
-        element={<>Charges</>}
+        path="freight"
+        element={<Freight_docket/>}
       />
-
       <Route
-        path="review"
-        element={<>Review</>}
+        path="billing-remarks"
+        element={<Billing_Remarks_docket/>}
       />
     </Route>
 

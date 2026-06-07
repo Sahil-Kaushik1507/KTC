@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { docketSteps } from "../config/docketSteps";
+import { docketSteps } from "../config/docketStepsConfig";
 
-const BASE_PATH = "/dockets/new";
+const BASE_PATH = "/docket/new";
 
 export default function useDocketStepNavigation() {
   const location = useLocation();

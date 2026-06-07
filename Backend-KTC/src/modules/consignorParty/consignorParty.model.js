@@ -2,7 +2,7 @@ import { getPool } from "../../config/db.js";
 import { withTransaction } from "../../utils/dbTranaction.js";
 import { AppError } from "../../utils/AppError.js";
 import { buildInsertQuery } from "../../utils/queryGenrator.js";
-import { getSequenceWithRowLock,addOneToSequenceWithRowLock } from "../../utils/sequenceManager.js"
+import { getSequenceWithRowLock, addOneToSequenceWithRowLock } from "../../utils/sequenceManager.js"
 
 
 //Sample Data
@@ -36,7 +36,7 @@ export const addConsignorParty = async (partyData) => {
 
             const branch_id = branchRows[0].branch_id;
 
-            const next_number = getSequenceWithRowLock(connection,party_sequence_name);
+            const next_number = getSequenceWithRowLock(connection, party_sequence_name);
 
             const party_code =
                 `${party_sequence_name}-${next_number.toString().padStart(4, "0")}`;
@@ -45,19 +45,19 @@ export const addConsignorParty = async (partyData) => {
             partyData.party_code = party_code;
 
             delete partyData.branch_code;
-            const { query, values } = buildInsertQuery("PARTIES",partyData)
+            const { query, values } = buildInsertQuery("PARTIES", partyData)
 
-            const [result]= await connection.query(query, values);
+            const [result] = await connection.query(query, values);
 
-            updateSequence=addOneToSequenceWithRowLock(connection,party_sequence_name)
-            if(updateSequence){
+            updateSequence = addOneToSequenceWithRowLock(connection, party_sequence_name)
+            if (updateSequence) {
                 return {
                     message: "Party added successfully",
                     partyId: result.insertId,
                     partyCode: party_code
                 };
-            }else{
-                throw new AppError("Sequence not Updated after adding. Party not saved you can try again",500)
+            } else {
+                throw new AppError("Sequence not Updated after adding. Party not saved you can try again", 500)
             }
 
         });
@@ -174,59 +174,41 @@ export const getBranchWiseConsignorPartiesWithProducts = async (branch_id) => {
             );
         }
 
-        const [rows] = await connectionPool.query(
+        const [result] = await connectionPool.query(
             `
-            SELECT 
-                cp.*,
-                pp.product_name
-            FROM consignor_parties cp
-            LEFT JOIN party_products pp
-                ON cp.consignor_party_id = pp.consignor_party_id
-            WHERE cp.branch_id = ?
+                SELECT 
+                    cp.consignor_party_id,
+                    cp.branch_id,
+                    cp.consignor_party_name,
+                    cp.consignor_address,
+                    cp.consignor_gst_no,
+                    
+                    CASE 
+                        WHEN COUNT(pp.product_name) > 0 
+                        THEN JSON_ARRAYAGG(JSON_OBJECT('product_name', pp.product_name))
+                        ELSE JSON_ARRAY() 
+                    END AS products
+                FROM consignor_parties cp
+                LEFT JOIN party_products pp 
+                    ON cp.consignor_party_id = pp.consignor_party_id
+                WHERE cp.branch_id = ?
+                GROUP BY cp.consignor_party_id;
             `,
             [branch_id]
         );
 
-        if (rows.length === 0) {
+        if (result.length === 0) {
             throw new AppError(
                 `No party with branch code:'${branch_id}'`,
                 404
             );
         }
 
-        // Group Parties
-        const groupedParties = rows.reduce((acc, row) => {
 
-            const partyId = row.consignor_party_id;
-
-            // Create Party First Time
-            if (!acc[partyId]) {
-
-                acc[partyId] = {
-                    consignor_party_id: row.consignor_party_id,
-                    branch_id: row.branch_id,
-                    party_name: row.consignor_party_name,
-                    address: row.consignor_address,
-                    gst_no: row.consignor_gst_no,
-
-                    // Add remaining party fields here
-
-                    products: []
-                };
-            }
-
-            // Push Product
-            if (row.product_name) {
-                acc[partyId].products.push(row.product_name);
-            }
-
-            return acc;
-
-        }, {});
 
         return {
             message: "Parties Found successfully",
-            partyDetails: Object.values(groupedParties)
+            partyDetails: result
         };
 
     } catch (error) {

@@ -61,7 +61,7 @@ export const addConsigneeParty = async (consigneePartyData) => {
 
 
 
-export const getAllParties = async () => {
+export const getAllConsigneeParties = async () => {
     try {
         const connectionPool = getPool();
         if (!connectionPool) {
@@ -77,7 +77,7 @@ export const getAllParties = async () => {
                 404
             );
         }
-        console.log(result)
+  
 
         return {
             message: `Consignee Parties Found successfully`,
@@ -96,3 +96,50 @@ export const getAllParties = async () => {
 }
 
 
+export const getBranchWiseConsigneeParties= async (branch_id) => {
+    try {
+
+        const connectionPool = getPool();
+
+        if (!connectionPool) {
+            throw new AppError(
+                "Database connection not initialized.",
+                500
+            );
+        }
+
+        const [result] = await connectionPool.query(
+            `
+            SELECT * FROM consignee_parties 
+            WHERE branch_id = ?
+            `,
+            [branch_id]
+        );
+
+        if (result.length === 0) {
+            throw new AppError(
+                `No party with branch code:'${branch_id}'`,
+                404
+            );
+        }
+
+
+        return {
+            message: "Consignee Parties Found successfully",
+            partyDetails: result
+        };
+
+    } catch (error) {
+
+        if (error instanceof AppError) {
+            throw error;
+        }
+
+        console.error("DB Error:", error);
+
+        throw new AppError(
+            "Database error while getting party details.",
+            500
+        );
+    }
+};

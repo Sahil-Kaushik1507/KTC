@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { AuthRoutes } from "../features/auth/routes/AuthRoutes.jsx";
 
 import { DocketRoutes } from "../features/docket/routes/DocketRoutes.jsx";
+import Home from "../Pages/Home.jsx";
 
 
 export default function AppRoutes() {
@@ -28,7 +29,7 @@ export default function AppRoutes() {
       >
         <Route
           path="/"
-          element={<h1>Dashboard</h1>}
+          element={<Home/>}
         />
 
         {DocketRoutes}

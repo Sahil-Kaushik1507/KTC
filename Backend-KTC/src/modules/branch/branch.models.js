@@ -149,7 +149,7 @@ export const viewBranches = async () => {
                 404
             );
         }
-        console.log(result)
+    
         return result;
     } catch (error) {
 

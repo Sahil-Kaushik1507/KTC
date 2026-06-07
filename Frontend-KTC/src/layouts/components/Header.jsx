@@ -21,7 +21,7 @@ export default function Header() {
     <div className="nav-bar bg-[#1E3A8A] w-full flex items-center h-14 px-6 border-b-4 border-[#FBBF24] shadow-lg">
       {/* Logo & Name (Left Corner) */}
       <div className="flex items-center space-x-3">
-        <img src="./Images/logo/Logo-jpg-1.jpg" alt="Logo" className="h-12 rounded-xl" />
+        <img src="/Images/logo/Logo-jpg-1.jpg" alt="Logo" className="h-12 rounded-xl" />
         <h1 className="text-[#F8FAFC] font-poppins text-2xl font-bold">
           Kaushik Transport Company&#174;
         </h1>

@@ -6,7 +6,7 @@ import { useFormContext, useFormState } from "react-hook-form";
 // 2. name  -> Field name for React Hook Form
 
 const TextAreaInput = memo(
-  ({ name, label, rows = 4, ...rest }) => {
+  ({ name, label, rows = 2, ...rest }) => {
     const labelText =
       label.charAt(0).toUpperCase() + label.slice(1);
 

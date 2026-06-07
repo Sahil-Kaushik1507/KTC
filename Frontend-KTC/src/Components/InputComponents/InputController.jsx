@@ -4,6 +4,7 @@ import CheckBoxInput from "./CheckBoxInput";
 import DroupDownInput from "./DropDownInput";
 import RadioInput from "./RadioInput";
 import TextAreaInput from "./TextAreaInput";
+import SearchableDropdown from "./SearchableDropdown";
 
 
 const InputControl = React.memo(({ type, ...rest }) => {
@@ -24,6 +25,8 @@ const InputControl = React.memo(({ type, ...rest }) => {
                 return <DroupDownInput {...rest} />;
             case "textarea":
                 return <TextAreaInput {...rest} />;
+            case "searchabledroupdown":
+                return <SearchableDropdown {...rest}/>;
             
             default:
                 return null;
