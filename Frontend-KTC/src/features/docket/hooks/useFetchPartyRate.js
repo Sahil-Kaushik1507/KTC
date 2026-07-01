@@ -1,5 +1,5 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useWatch, useFormContext } from 'react-hook-form';
 import { getRateDetails } from '../api/newDocketApi';
 
@@ -10,6 +10,7 @@ export function useFetchPartyRate() {
   const [source, destination, consignorId, sizeId] = useWatch({
     name: ["source", "destination", "consignor_id", "truck_details.size_id"]
   });
+  const lastRequest = useRef("");
 
   useEffect(() => {
     const autoFetchPartyRate = async () => {
@@ -19,18 +20,27 @@ export function useFetchPartyRate() {
       }
 
       // 2. Validate all fields simultaneously
-      const [isValidSrc, isValidDest, isValidCons, isValidSz] = await Promise.all([
-        trigger("source"),
-        trigger("destination"),
-        trigger("consignor_id"),
-        trigger("truck_details.size_id")
-      ]);
+      if (
+        !source?.trim() ||
+        !destination?.trim() ||
+        !consignorId ||
+        !sizeId
+      ) {
+        return;
+      }
 
-      if (!isValidSrc || !isValidDest || !isValidCons || !isValidSz) return;
+      const requestKey = `${source}|${destination}|${consignorId}|${sizeId}`;
+
+      if (lastRequest.current === requestKey) {
+        return;
+      }
+
+      lastRequest.current = requestKey;
+
 
       // 3. Fetch data if valid
       try {
-        
+
         const rateDetails = await getRateDetails({
           consignor_party_id: consignorId,
           source,
@@ -39,9 +49,9 @@ export function useFetchPartyRate() {
         });
 
         if (rateDetails?.data?.freight?.[0]) {
-          setValue("party_freight.freightamt", rateDetails.data.freight[0].freight, { 
-            shouldValidate: true, 
-            shouldDirty: true 
+          setValue("party_freight.freightamt", rateDetails.data.freight[0].freight, {
+            shouldValidate: false,
+            shouldDirty: true
           });
         } else {
           setValue("party_freight.freightamt", null, { shouldDirty: true });

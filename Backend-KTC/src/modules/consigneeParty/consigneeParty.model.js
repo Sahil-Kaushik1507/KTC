@@ -35,7 +35,7 @@ export const addConsigneeParty = async (consigneePartyData) => {
         };
             
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -85,7 +85,7 @@ export const getAllConsigneeParties = async () => {
         };
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -130,7 +130,7 @@ export const getBranchWiseConsigneeParties= async (branch_id) => {
         };
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

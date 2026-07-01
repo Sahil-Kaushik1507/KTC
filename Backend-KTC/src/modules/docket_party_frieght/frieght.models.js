@@ -43,7 +43,7 @@ export const addPartyFrieght = async (newDocketFrieghtData, connection) => {
 
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

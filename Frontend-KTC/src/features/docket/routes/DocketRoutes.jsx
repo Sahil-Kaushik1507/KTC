@@ -7,36 +7,39 @@ import Parties_docket from "../components/newDocket/steps/Parties_Items_docket";
 import Invoice_Eway_docket from "../components/newDocket/steps/Invoice_eway_docket";
 import Freight_docket from "../components/newDocket/steps/Freight_docket";
 import Billing_Remarks_docket from "../components/newDocket/steps/Billing_Remarks_docket";
+import PDFDataSelect from "../components/pdf/PDFDataSelect";
+import DocketPDF from "../pages/DocketPDF";
 
 export const DocketRoutes = (
   <>
     {/* Create Docket */}
-    <Route  path="/docket/new"
-      element={<NewDocketLayout/>}>
+    <Route path="/docket/new"
+      element={<NewDocketLayout />}>
       <Route
         path=""
-        element={<Basic_Truck_docket/>}
+        element={<Basic_Truck_docket />}
       />
 
-    
+
       <Route
         path="parties-item"
-        element={<Parties_docket/>}
+        element={<Parties_docket />}
       />
 
       <Route
         path="invoice-eway"
-        element={<Invoice_Eway_docket/>}
+        element={<Invoice_Eway_docket />}
       />
 
       <Route
         path="freight"
-        element={<Freight_docket/>}
+        element={<Freight_docket />}
       />
       <Route
         path="billing-remarks"
-        element={<Billing_Remarks_docket/>}
+        element={<Billing_Remarks_docket />}
       />
+
     </Route>
 
     {/* View Docket */}
@@ -44,5 +47,21 @@ export const DocketRoutes = (
       path="/docket/view"
       element={<h1>View Docket</h1>}
     />
+
+    {/* View Docket */}
+    <Route
+      path="/docket">
+
+      <Route
+        path="pdf"
+        element={<PDFDataSelect />}
+      />
+
+      <Route
+        path="pdf-preview"
+        element={<DocketPDF />}
+      />
+
+    </Route>
   </>
 );

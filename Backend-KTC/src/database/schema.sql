@@ -154,11 +154,12 @@ CREATE TABLE IF NOT EXISTS dockets (
     destination VARCHAR(150),
     vehicle_id INT,
     charged_weight DECIMAL(12,2),
+    seal_no VARCHAR(150),
     consignor_id INT,
     consignee_id INT,
     payment_mode ENUM('CASH','NEFT','RTGS','CHEQUE','TO PAY','TO BE BILLED'),
     billing_branch_id INT,
-    gstin_payable_by ENUM('CONSIGNOR','CONSIGNEE'),
+    gstin_payable_by ENUM('CONSIGNOR','CONSIGNEE','TRANSPORTER'),
     remarks TEXT,
     request_id VARCHAR(100) NOT NULL UNIQUE,
     FOREIGN KEY (branch_id)

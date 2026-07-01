@@ -17,7 +17,7 @@ export const truckDetailsSchema = z.object({
       "Enter a valid Indian vehicle number (e.g. HR12SK1507)"
     ),
 
-  size: z
+  size_id: z
     .number()
     .min(1, "Vehicle size is required"),
 
@@ -28,12 +28,6 @@ export const truckDetailsSchema = z.object({
     .positive("Actual weight must be greater than 0")
     .max(100000, "Actual weight seems unrealistic"),
 
-  charged_weight: z.coerce
-    .number({
-      error: "Charged weight must be a valid number",
-    })
-    .positive("Charged weight must be greater than 0")
-    .max(100000, "Charged weight seems unrealistic"),
 
   driver_name: z
     .string()

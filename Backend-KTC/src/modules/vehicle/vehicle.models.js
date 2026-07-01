@@ -55,7 +55,7 @@ export const addNewVehicle = async (newVehicleData) => {
         };
 
     } catch (error) {
-
+ console.log( error)
         if (error instanceof AppError) {
             throw error
         }
@@ -78,7 +78,7 @@ export const addNewVehicle = async (newVehicleData) => {
                 };
             }
 
-            throw new AppError("Lorry already Exists", 409);
+            throw new AppError("Truck No. already Exists", 409);
         }
 
 
@@ -106,7 +106,7 @@ export const viewVehicles = async () => {
         // console.log(result)
         return result;
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -135,7 +135,7 @@ export const getVehicleByNo = async (truck_no) => {
         // console.log(result)
         return result;
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

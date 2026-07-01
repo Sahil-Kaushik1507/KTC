@@ -34,7 +34,7 @@ export const addItems = async (newDocketItemsData, connection) => {
 
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

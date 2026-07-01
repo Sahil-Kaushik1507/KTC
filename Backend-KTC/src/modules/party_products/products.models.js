@@ -40,7 +40,7 @@ export const getProducts = async (party_code) => {
 
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -88,7 +88,7 @@ export const updateProductPriority = async (updateData) => {
 
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

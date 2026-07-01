@@ -38,9 +38,11 @@ export const addUser = async (userData) => {
         };
 
     } catch (error) {
+         console.log(error)
 
         if (error.code === "ER_DUP_ENTRY") {
             if (error.sqlMessage.includes("phone_no")) {
+               
                 throw new AppError("Phone No. already used by some other user", 409);
             }
             if (error.sqlMessage.includes("email")) {
@@ -111,6 +113,7 @@ export const loginUser = async (userData) => {
         }
 
     } catch (error) {
+         console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -156,7 +159,7 @@ export const updateUser = async (userData, user_id) => {
 
 
     } catch (error) {
-
+         console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -201,7 +204,7 @@ export const changeUserPassword = async (passwordData, user_id) => {
 
 
     } catch (error) {
-
+         console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

@@ -31,7 +31,7 @@ export const addSequence = async (sequenceData) => {
         };
 
     } catch (error) {
-
+ console.log(error)
         // Duplicate entry handling
         if (error.code === "ER_DUP_ENTRY") {
             throw new AppError("Duplicate Sequance Name", 409);

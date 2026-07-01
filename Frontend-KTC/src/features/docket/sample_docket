@@ -46,3 +46,70 @@ const Docket = {
   GSTINPayableBy: "Consignor",
   Remarks: "Handle with care – fragile items.",
 };
+
+
+// {
+//     "source": "Pune",
+//     "docket_items": [
+//         {
+//             "product_name": "Copper Wires",
+//             "total_packages": "43",
+//             "packaging_method": "afdf",
+//             "declared_value": "1243"
+//         }
+//     ],
+//     "truck_freight": {
+//         "grand_total": 23423,
+//         "freightamt": "23423",
+//         "advance": "234",
+//         "balance": 23189,
+//         "labour": "",
+//         "holding": "",
+//         "multipoint_pickup": "",
+//         "multipoint_delivery": "",
+//         "other_charges": ""
+//     },
+//     "party_freight": {
+//         "grand_total": 535,
+//         "freightamt": "535",
+//         "labour": "",
+//         "holding": "",
+//         "multipoint_pickup": "",
+//         "multipoint_delivery": "",
+//         "docket_charge": "",
+//         "green_tax": "",
+//         "other_charges": "",
+//         "gst_remark": "",
+//         "gst_amt": "",
+//         "other_state_tax_remark": "",
+//         "other_state_tax_amt": ""
+//     },
+//     "billing_branch_id": 1,
+//     "request_id": "1653dcf1-4819-4ac1-9594-1bc86d0f52d6",
+//     "docket_no": "PUN-2026-000018",
+//     "docket_date": "28 Jun 26",
+//     "branch_id": "1",
+//     "truck_details": {
+//         "truck_no": "HR-55-GH-3456",
+//         "actual_weight": "14000.00",
+//         "driver_name": "Satnam Singh",
+//         "driver_phone": "9812344321",
+//         "size_id": 5
+//     },
+//     "charged_weight": "4564",
+//     "destination": "Pune",
+//     "vehicle_id": 4,
+//     "consignor_id": 1,
+//     "consignee_id": 9,
+//     "temp_invoice_no": "ASDF",
+//     "temp_eway_bill_no": "111111111111",
+//     "eway_bills": [
+//         {
+//             "invoice_no": "ASDF",
+//             "eway_bill_no": "111111111111"
+//         }
+//     ],
+//     "remarks": "fsd",
+//     "gstin_payable_by": "Consignor",
+//     "payment_mode": "NEFT"
+// }

@@ -201,18 +201,18 @@ export const seedDatabase = async () => {
     ====================================== */
     await getPool().query(`
       INSERT INTO dockets 
-        (docket_no, branch_id, docket_date, source, destination, vehicle_id, charged_weight, consignor_id, consignee_id, payment_mode, billing_branch_id, gstin_payable_by, remarks, request_id)
+        (docket_no, branch_id, docket_date, source, destination, vehicle_id, charged_weight, seal_no, consignor_id, consignee_id, payment_mode, billing_branch_id, gstin_payable_by, remarks, request_id)
       VALUES 
-        ('HDR-2026-000001', 1, '2026-03-03', 'Noida', 'Pune', 1, 5200, 1, 1, 'CASH', 1, 'CONSIGNOR', 'Urgent delivery', '3f50c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d45'),
-        ('KOL-2026-000002', 2, '2026-03-04', 'Kolkata', 'Delhi', 2, 7100, 2, 2, 'CHEQUE', 2, 'CONSIGNEE', 'Handle with care', '4a60c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d46'),
-        ('DEL-2026-000003', 4, '2026-03-05', 'Delhi', 'Mumbai', 3, 9800, 3, 3, 'TO BE BILLED', 4, 'CONSIGNOR', 'Industrial stock delivery', '5b70c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d47'),
-        ('BOM-2026-000004', 5, '2026-03-05', 'Mumbai', 'Bengaluru', 5, 8300, 4, 4, 'TO PAY', 5, 'CONSIGNOR', 'Standard dispatch', '6c80c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d48'),
-        ('BLR-2026-000005', 6, '2026-03-06', 'Bengaluru', 'Hyderabad', 6, 15500, 5, 5, 'NEFT', 6, 'CONSIGNEE', 'Electronics consignment', '7d90c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d49'),
-        ('HYD-2026-000006', 7, '2026-03-06', 'Hyderabad', 'Chennai', 7, 11200, 6, 6, 'CASH', 7, 'CONSIGNOR', 'Pharma cool cargo', '8e00c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d50'),
-        ('MAA-2026-000007', 8, '2026-03-07', 'Chennai', 'Ahmedabad', 8, 21800, 7, 7, 'RTGS', 8, 'CONSIGNOR', 'FMCG priority supply', '9f10c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d51'),
-        ('AMD-2026-000008', 9, '2026-03-07', 'Ahmedabad', 'Indore', 9, 24500, 8, 8, 'CHEQUE', 9, 'CONSIGNEE', 'Textile material raw', '0a20c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d52'),
-        ('PUN-2026-000009', 1, '2026-03-08', 'Pune', 'Jaipur', 1, 5100, 9, 9, 'CASH', 1, 'CONSIGNOR', 'Auto parts cluster', '1b30c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d53'),
-        ('IND-2026-000010', 10, '2026-03-08', 'Indore', 'Delhi', 10, 7300, 12, 12, 'TO BE BILLED', 10, 'CONSIGNEE', 'Engineering tools batch', '2c40c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d54')
+        ('HDR-2026-000001', 1, '2026-03-03', 'Noida', 'Pune', 1, 5200,'KTC-1', 1, 1, 'CASH', 1, 'CONSIGNOR', 'Urgent delivery', '3f50c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d45'),
+        ('KOL-2026-000002', 2, '2026-03-04', 'Kolkata', 'Delhi', 2, 7100,'KTC-2', 2, 2, 'CHEQUE', 2, 'CONSIGNEE', 'Handle with care', '4a60c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d46'),
+        ('DEL-2026-000003', 4, '2026-03-05', 'Delhi', 'Mumbai', 3, 9800,'KTC-3', 3, 3, 'TO BE BILLED', 4, 'CONSIGNOR', 'Industrial stock delivery', '5b70c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d47'),
+        ('BOM-2026-000004', 5, '2026-03-05', 'Mumbai', 'Bengaluru', 5, 8300,'KTC-1', 4, 4, 'TO PAY', 5, 'CONSIGNOR', 'Standard dispatch', '6c80c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d48'),
+        ('BLR-2026-000005', 6, '2026-03-06', 'Bengaluru', 'Hyderabad', 6, 15500,'KTC-1', 5, 5, 'NEFT', 6, 'CONSIGNEE', 'Electronics consignment', '7d90c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d49'),
+        ('HYD-2026-000006', 7, '2026-03-06', 'Hyderabad', 'Chennai', 7, 11200,'KTC-5', 6, 6, 'CASH', 7, 'CONSIGNOR', 'Pharma cool cargo', '8e00c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d50'),
+        ('MAA-2026-000007', 8, '2026-03-07', 'Chennai', 'Ahmedabad', 8, 21800,'KTC-1', 7, 7, 'RTGS', 8, 'CONSIGNOR', 'FMCG priority supply', '9f10c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d51'),
+        ('AMD-2026-000008', 9, '2026-03-07', 'Ahmedabad', 'Indore', 9, 24500,'KTC-1', 8, 8, 'CHEQUE', 9, 'CONSIGNEE', 'Textile material raw', '0a20c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d52'),
+        ('PUN-2026-000009', 1, '2026-03-08', 'Pune', 'Jaipur', 1, 5100,'KTC-8', 9, 9, 'CASH', 1, 'CONSIGNOR', 'Auto parts cluster', '1b30c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d53'),
+        ('IND-2026-000010', 10, '2026-03-08', 'Indore', 'Delhi', 10, 7300,'KTC-1', 12, 12, 'TO BE BILLED', 10, 'CONSIGNEE', 'Engineering tools batch', '2c40c8a2-1b6a-4d9e-9c2a-7f8b2a1e6d54')
       ON DUPLICATE KEY UPDATE remarks = VALUES(remarks);
     `);
 

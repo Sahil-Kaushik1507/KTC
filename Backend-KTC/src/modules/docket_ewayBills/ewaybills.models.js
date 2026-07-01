@@ -34,7 +34,7 @@ export const addEwayBills = async (newDocketEwayBillsData, connection) => {
 
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -93,7 +93,7 @@ export const getEwayBills = async (docket_no) => {
         }
         return result;
     } catch (error) {
-
+ console.log(error)
 
         if (error instanceof AppError) {
             throw error;

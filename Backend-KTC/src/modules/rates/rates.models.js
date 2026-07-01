@@ -122,7 +122,7 @@ export const getRate = async (rateData) => {
         };
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

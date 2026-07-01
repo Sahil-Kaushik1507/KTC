@@ -97,7 +97,7 @@ export const addDocket = async (newDocketData) => {
     const { request_id } = newDocketData;
 
     if (!request_id) {
-      throw new AppError("request_id is required", 400);
+      // throw new AppError("request_id is required", 400);
     }
 
 
@@ -130,7 +130,9 @@ export const addDocket = async (newDocketData) => {
 
 
         const result1 = await addNewVehicle(truck_details)
-        console.log(!result1.data.vehicleId)
+        // console.log(!result1.data.vehicleId)
+
+        
         if (result1.affectedRows !== 1 && !result1.data.vehicleId) {
           throw new AppError("Failed to insert Vehicle", 500);
         }
@@ -139,7 +141,7 @@ export const addDocket = async (newDocketData) => {
         delete newDocketData.truck_details;
       }
 
-      console.log(newDocketData.vehicle_id)
+      // console.log(newDocketData.vehicle_id)
 
       delete newDocketData.branch_code;
       delete newDocketData.docket_items;
@@ -216,6 +218,7 @@ export const addDocket = async (newDocketData) => {
 
   } catch (error) {
 
+    console.log(error)
     if (error instanceof AppError) {
       throw error
     }
@@ -280,7 +283,7 @@ export const viewDockets = async () => {
     // console.log(result)
     return result;
   } catch (error) {
-
+    console.log(error)
     if (error instanceof AppError) {
       throw error;
     }
@@ -309,7 +312,7 @@ export const viewDocketDetails = async (docketNo) => {
     // console.log(result)
     return result;
   } catch (error) {
-
+    console.log(error)
 
     if (error instanceof AppError) {
       throw error;
@@ -347,7 +350,7 @@ export const getDestinationListBranchWise = async (branch_id) => {
     return result;
   } catch (error) {
 
-
+    console.log(error)
     if (error instanceof AppError) {
       throw error;
     }
@@ -385,7 +388,7 @@ export const getSourceListBranchWise = async (branch_id) => {
     return result;
   } catch (error) {
 
-
+    console.log(error)
     if (error instanceof AppError) {
       throw error;
     }
@@ -442,6 +445,7 @@ export const getNewDocketData = async ({ branch_code, branch_id }) => {
 
     }
   } catch (error) {
+    console.log(error)
     if (error instanceof AppError) {
       throw error;
     }

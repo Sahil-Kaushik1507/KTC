@@ -63,7 +63,7 @@ export const addConsignorParty = async (partyData) => {
         });
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -151,7 +151,7 @@ export const getAllConsignorParties = async () => {
         };
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -212,7 +212,7 @@ export const getBranchWiseConsignorPartiesWithProducts = async (branch_id) => {
         };
 
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

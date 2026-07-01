@@ -19,16 +19,16 @@ export const addBranch = async (newBranchData) => {
             throw new AppError("Database connection not initialized.", 500);
         }
 
-        const { query, values } = buildInsertQuery("BRANCHES",newBranchData)
-       const [result]= await connectionPool.query(query, values);
-      
+        const { query, values } = buildInsertQuery("BRANCHES", newBranchData)
+        const [result] = await connectionPool.query(query, values);
+
         return {
             message: `Branch added successfully`,
             branchId: result.insertId
         };
 
     } catch (error) {
-
+         console.log(error)
         // Duplicate entry handling
         if (error.code === "ER_DUP_ENTRY") {
 
@@ -101,6 +101,7 @@ export const addBranchManager = async (managerData) => {
         };
 
     } catch (error) {
+         console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -149,10 +150,10 @@ export const viewBranches = async () => {
                 404
             );
         }
-    
+
         return result;
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }
@@ -182,7 +183,7 @@ export const viewBranchDetails = async (branchId) => {
         console.log(result)
         return result;
     } catch (error) {
-
+        console.log(error)
 
         if (error instanceof AppError) {
             throw error;

@@ -61,7 +61,7 @@ export const viewAllSizes = async () => {
 
         return result;
     } catch (error) {
-
+ console.log(error)
         if (error instanceof AppError) {
             throw error;
         }

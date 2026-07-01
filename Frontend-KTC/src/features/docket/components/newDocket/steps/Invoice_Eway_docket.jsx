@@ -28,7 +28,7 @@ export default function InvoiceEwayDocket() {
       "temp_invoice_no",
       "temp_eway_bill_no"
     ]);
-console.log(isValid)
+// console.log(isValid)
     if (!isValid) return;
 
     const trimmedInvoice = invoiceNo.trim().toUpperCase();

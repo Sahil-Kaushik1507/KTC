@@ -47,11 +47,11 @@ export default function Basic_Truck_docket() {
     const isValid = await trigger("truck_details.truck_no");
     if (!isValid) return;
     const truckNo = getValues("truck_details.truck_no");
-    console.log(truckNo)
+    // console.log(truckNo)
 
     let truckDetails;
     try {
-       truckDetails = await getTruckDetails({ "truck_no": truckNo })
+      truckDetails = await getTruckDetails({ "truck_no": truckNo })
     } catch (error) {
       console.log(error)
     }
@@ -64,13 +64,13 @@ export default function Basic_Truck_docket() {
       setValue("truck_details.driver_phone", truckDetails.data[0].driver_phone, options);
       setValue("truck_details.driver_name", truckDetails.data[0].driver_name, options);
       setValue("truck_details.size_id", truckDetails.data[0].size_id, options);
-    }else{
-          const clearOptions = { shouldValidate: false, shouldDirty: true };
-       setValue("vehicle_id", null,clearOptions);
+    } else {
+      const clearOptions = { shouldValidate: false, shouldDirty: true };
+      setValue("vehicle_id", null, clearOptions);
       setValue("truck_details.actual_weight", null, clearOptions);
-      setValue("truck_details.driver_phone",null, clearOptions);
+      setValue("truck_details.driver_phone", null, clearOptions);
       setValue("truck_details.driver_name", null, clearOptions);
-      setValue("truck_details.size_id",null , clearOptions);
+      setValue("truck_details.size_id", null, clearOptions);
     }
   };
 
@@ -109,6 +109,7 @@ export default function Basic_Truck_docket() {
           <InputControl name="truck_details.actual_weight" label="Actual Weight" type="text" />
           <InputControl name="truck_details.driver_name" label="Driver Name" type="text" />
           <InputControl name="truck_details.driver_phone" label="Driver Phone" type="number" />
+          <InputControl name="seal_no" label="Seal Number" type="text" />
         </div>
       </div>
 
